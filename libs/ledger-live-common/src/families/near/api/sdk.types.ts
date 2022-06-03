@@ -2,6 +2,7 @@ export type NearAccount = {
   amount: string;
   storage_usage: number;
   block_height: number;
+  staked_amount: string;
 };
 
 export type NearTransaction = {

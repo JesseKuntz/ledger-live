@@ -39,7 +39,7 @@ const fetchTransactions = async (
 export const getAccount = async (
   address: string
 ): Promise<Partial<Account>> => {
-  let accountDetails;
+  let accountDetails: NearAccount;
 
   try {
     accountDetails = await fetchAccountDetails(address);
@@ -49,6 +49,7 @@ export const getAccount = async (
         amount: "0",
         block_height: 0,
         storage_usage: 0,
+        staked_amount: "0",
       };
     } else {
       throw e;
@@ -58,6 +59,7 @@ export const getAccount = async (
   const { storageCost } = getCurrentNearPreloadData();
 
   const balance = new BigNumber(accountDetails.amount);
+  const stakedBalance = new BigNumber(accountDetails.staked_amount);
   const storageUsage = storageCost.multipliedBy(accountDetails.storage_usage);
   const minBalanceBuffer = new BigNumber(MIN_ACCOUNT_BALANCE_BUFFER);
 
@@ -69,8 +71,12 @@ export const getAccount = async (
 
   return {
     blockHeight: accountDetails.block_height,
-    balance,
+    balance: balance.plus(stakedBalance),
     spendableBalance,
+    nearResources: {
+      stakedBalance,
+      storageUsageBalance: storageUsage.plus(minBalanceBuffer),
+    },
   };
 };
 

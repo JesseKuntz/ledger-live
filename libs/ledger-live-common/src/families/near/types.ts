@@ -3,6 +3,7 @@ import type {
   TransactionCommon,
   TransactionCommonRaw,
 } from "../../types/transaction";
+import { Account, AccountRaw } from "@ledgerhq/types-live";
 
 export type Transaction = TransactionCommon & {
   family: "near";
@@ -26,4 +27,20 @@ export type NearPreloadedData = {
   addKeyCostExecution: BigNumber;
   receiptCreationSend: BigNumber;
   receiptCreationExecution: BigNumber;
+};
+
+export type NearResources = {
+  stakedBalance: BigNumber;
+  storageUsageBalance: BigNumber;
+};
+
+export type NearResourcesRaw = {
+  stakedBalance: string;
+  storageUsageBalance: string;
+};
+
+export type NearAccount = Account & { nearResources: NearResources };
+
+export type NearAccountRaw = AccountRaw & {
+  nearResources: NearResourcesRaw;
 };

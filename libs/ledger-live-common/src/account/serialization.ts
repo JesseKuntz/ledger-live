@@ -40,6 +40,11 @@ import {
 } from "../families/solana/serialization";
 
 import {
+  toNearResourcesRaw,
+  fromNearResourcesRaw,
+} from "../families/near/serialization";
+
+import {
   getCryptoCurrencyById,
   getTokenById,
   findTokenById,
@@ -92,6 +97,7 @@ import {
 } from "../families/crypto_org/types";
 import { SolanaAccount, SolanaAccountRaw } from "../families/solana/types";
 import { TezosAccount, TezosAccountRaw } from "../families/tezos/types";
+import { NearAccount, NearAccountRaw } from "../families/near/types";
 
 export { toCosmosResourcesRaw, fromCosmosResourcesRaw };
 export { toAlgorandResourcesRaw, fromAlgorandResourcesRaw };
@@ -102,6 +108,7 @@ export { toElrondResourcesRaw, fromElrondResourcesRaw };
 export { toCryptoOrgResourcesRaw, fromCryptoOrgResourcesRaw };
 export { toCardanoResourceRaw, fromCardanoResourceRaw };
 export { toSolanaResourcesRaw, fromSolanaResourcesRaw };
+export { toNearResourcesRaw, fromNearResourcesRaw };
 
 export function toBalanceHistoryRaw(b: BalanceHistory): BalanceHistoryRaw {
   return b.map(({ date, value }) => [date.toISOString(), value.toString()]);
@@ -857,6 +864,13 @@ export function fromAccountRaw(rawAccount: AccountRaw): Account {
           fromCryptoOrgResourcesRaw(cryptoOrgResourcesRaw);
       break;
     }
+    case "near": {
+      const nearResourcesRaw = (rawAccount as NearAccountRaw).nearResources;
+      if (nearResourcesRaw)
+        (res as NearAccount).nearResources =
+          fromNearResourcesRaw(nearResourcesRaw);
+      break;
+    }
   }
 
   if (swapHistory) {
@@ -1033,6 +1047,15 @@ export function toAccountRaw(account: Account): AccountRaw {
       if (crytpoOrgAccount.cryptoOrgResources) {
         (res as CryptoOrgAccountRaw).cryptoOrgResources =
           toCryptoOrgResourcesRaw(crytpoOrgAccount.cryptoOrgResources);
+      }
+      break;
+    }
+    case "near": {
+      const nearAccount = account as NearAccount;
+      if (nearAccount.nearResources) {
+        (res as NearAccountRaw).nearResources = toNearResourcesRaw(
+          nearAccount.nearResources
+        );
       }
       break;
     }

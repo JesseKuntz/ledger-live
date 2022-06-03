@@ -26,6 +26,7 @@ import {
   fromElrondResourcesRaw,
   fromCryptoOrgResourcesRaw,
   fromSolanaResourcesRaw,
+  fromNearResourcesRaw,
   fromNFTRaw,
   toTronResourcesRaw,
   toCosmosResourcesRaw,
@@ -490,6 +491,15 @@ export function patchAccount(
       }
       break;
     }
+  }
+
+  if (
+    updatedRaw.nearResources &&
+    // @ts-expect-error types don't overlap ¯\_(ツ)_/¯
+    account.nearResources !== updatedRaw.nearResources
+  ) {
+    next.nearResources = fromNearResourcesRaw(updatedRaw.nearResources);
+    changed = true;
   }
 
   const nfts = updatedRaw?.nfts?.map(fromNFTRaw);

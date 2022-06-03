@@ -2905,6 +2905,14 @@
       }
     }
   },
+  "near": {
+    "account": {
+      "stakedBalance": "Staked balance",
+      "stakedBalanceTooltip": "This amount is currently staked with validators.",
+      "storageUsageBalance": "Storage usage",
+      "storageUsageBalanceTooltip": "This amount is reserved for storage, and is the minimum balance that your account must maintain to remain active."
+    }
+  },
   "delegation": {
     "title": "Earn rewards",
     "header": "Delegation",
