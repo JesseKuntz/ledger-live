@@ -14,7 +14,15 @@ const buildOptimisticOperation = (
   transaction: Transaction,
   fee: BigNumber
 ): Operation => {
-  const type = "OUT";
+  let type;
+
+  switch (transaction.mode) {
+    case "stake":
+      type = "STAKE";
+      break;
+    default:
+      type = "OUT";
+  }
 
   const value = new BigNumber(transaction.amount).plus(fee);
 

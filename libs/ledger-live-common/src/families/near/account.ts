@@ -12,7 +12,7 @@ function formatAccountSpecifics(account: Account): string {
     ? `\n    Staked Balance: ${nearResources.stakedBalance}`
     : "";
   str += nearResources.storageUsageBalance
-    ? `\n    Staked Balance: ${nearResources.storageUsageBalance}`
+    ? `\n    Storage Usage Balance: ${nearResources.storageUsageBalance}`
     : "";
 
   return str;
