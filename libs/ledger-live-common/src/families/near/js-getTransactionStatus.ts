@@ -10,7 +10,13 @@ import {
 import type { Account, TransactionStatus } from "../../types";
 import { formatCurrencyUnit, getCryptoCurrencyById } from "../../currencies";
 import type { Transaction } from "./types";
-import { isValidAddress, NEW_ACCOUNT_SIZE, isImplicitAccount } from "./logic";
+import {
+  isValidAddress,
+  NEW_ACCOUNT_SIZE,
+  isImplicitAccount,
+  getMaxAmount,
+  getTotalSpent,
+} from "./logic";
 import { fetchAccountDetails } from "./api";
 import { getCurrentNearPreloadData } from "./preload";
 import {
@@ -80,12 +86,10 @@ const getTransactionStatus = async (
 
   const estimatedFees = t.fees || new BigNumber(0);
 
-  const totalSpent = useAllAmount
-    ? a.spendableBalance
-    : new BigNumber(t.amount).plus(estimatedFees);
+  const totalSpent = getTotalSpent(a, t, estimatedFees);
 
   const amount = useAllAmount
-    ? a.spendableBalance.minus(estimatedFees)
+    ? getMaxAmount(a, t, estimatedFees)
     : new BigNumber(t.amount);
 
   if (

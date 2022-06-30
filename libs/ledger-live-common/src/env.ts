@@ -88,7 +88,12 @@ const envDefinitions = {
   API_NEAR_INDEXER: {
     def: "https://near.coin.ledger.com/indexer/",
     parser: stringParser,
-    desc: "Explorer API for NEAR",
+    desc: "Datahub Indexer API for NEAR",
+  },
+  API_NEAR_WALLET_INDEXER: {
+    def: "https://api.kitwallet.app/",
+    parser: stringParser,
+    desc: "NEAR Wallet API",
   },
   API_POLKADOT_INDEXER: {
     parser: stringParser,

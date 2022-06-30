@@ -1,8 +1,9 @@
+import type { BigNumber } from "bignumber.js";
+
 export type NearAccount = {
   amount: string;
   storage_usage: number;
   block_height: number;
-  staked_amount: string;
 };
 
 export type NearTransaction = {
@@ -54,4 +55,14 @@ export type NearProtocolConfig = {
 export type NearAccessKey = {
   nonce: number;
   block_hash: string;
+};
+
+export type NearStakingDeposit = {
+  deposit: string;
+  validator_id: string;
+};
+
+export type NearStakingPosition = {
+  amount: BigNumber;
+  validatorId: string;
 };

@@ -15,6 +15,16 @@ function formatAccountSpecifics(account: Account): string {
     ? `\n    Storage Usage Balance: ${nearResources.storageUsageBalance}`
     : "";
 
+  if (nearResources.stakingPositions.length) {
+    str += `\n    Staking Positions:\n`;
+    str += nearResources.stakingPositions
+      .map(
+        ({ validatorId, amount }) =>
+          `        Validator ID: ${validatorId} | Amount: ${amount}`
+      )
+      .join("\n");
+  }
+
   return str;
 }
 

@@ -7,7 +7,7 @@ const options = [
   {
     name: "mode",
     type: String,
-    desc: "mode of transaction: send, stake",
+    desc: "mode of transaction: send, stake, unstake",
   },
 ];
 

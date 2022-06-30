@@ -2,6 +2,7 @@ import { BigNumber } from "bignumber.js";
 import type { AccountLike, Account } from "../../types";
 import type { Transaction } from "./types";
 import { getMainAccount } from "../../account";
+import { getMaxAmount } from "./logic";
 import { createTransaction } from "./js-transaction";
 import getEstimatedFees from "./js-getFeesForTransaction";
 
@@ -25,7 +26,7 @@ const estimateMaxSpendable = async ({
 
   const fees = calculatedFees ?? (await getEstimatedFees(t));
 
-  const maxSpendable = a.spendableBalance.minus(fees);
+  const maxSpendable = getMaxAmount(a, t, fees);
 
   if (maxSpendable.lt(0)) {
     return new BigNumber(0);

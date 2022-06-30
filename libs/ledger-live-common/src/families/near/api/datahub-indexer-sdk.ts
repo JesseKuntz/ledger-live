@@ -4,6 +4,7 @@ import { getEnv } from "../../../env";
 import { encodeOperationId } from "../../../operation";
 import { Account, Operation, OperationType } from "../../../types";
 import { NearTransaction, NearAccount } from "./sdk.types";
+import { getStakingPositions } from "./index";
 import { getCurrentNearPreloadData } from "../preload";
 import { MIN_ACCOUNT_BALANCE_BUFFER } from "../logic";
 
@@ -49,17 +50,21 @@ export const getAccount = async (
         amount: "0",
         block_height: 0,
         storage_usage: 0,
-        staked_amount: "0",
       };
     } else {
       throw e;
     }
   }
 
+  const stakingPositions = await getStakingPositions(address);
+  const stakedBalance = stakingPositions.reduce(
+    (sum, { amount }) => sum.plus(amount),
+    new BigNumber(0)
+  );
+
   const { storageCost } = getCurrentNearPreloadData();
 
   const balance = new BigNumber(accountDetails.amount);
-  const stakedBalance = new BigNumber(accountDetails.staked_amount);
   const storageUsage = storageCost.multipliedBy(accountDetails.storage_usage);
   const minBalanceBuffer = new BigNumber(MIN_ACCOUNT_BALANCE_BUFFER);
 
@@ -76,6 +81,7 @@ export const getAccount = async (
     nearResources: {
       stakedBalance,
       storageUsageBalance: storageUsage.plus(minBalanceBuffer),
+      stakingPositions,
     },
   };
 };

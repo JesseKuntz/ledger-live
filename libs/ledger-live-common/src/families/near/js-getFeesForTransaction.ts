@@ -1,7 +1,7 @@
 import { BigNumber } from "bignumber.js";
 import { getCurrentNearPreloadData } from "./preload";
 import { getGasPrice } from "./api";
-import { isImplicitAccount, getStakingGas } from "./logic";
+import { isImplicitAccount, getStakingGas, STAKING_GAS_BASE } from "./logic";
 import { Transaction } from "./types";
 
 const getEstimatedFees = async (
@@ -10,9 +10,12 @@ const getEstimatedFees = async (
   const rawGasPrice = await getGasPrice();
   const gasPrice = new BigNumber(rawGasPrice);
 
-  if (transaction.mode === "stake") {
+  if (["stake", "unstake", "withdraw"].includes(transaction.mode)) {
     // TODO: figure out why it needs to be divided by 10
-    return getStakingGas().multipliedBy(gasPrice).dividedBy(10);
+    return getStakingGas(transaction)
+      .plus(STAKING_GAS_BASE) // Buffer
+      .multipliedBy(gasPrice)
+      .dividedBy(10);
   }
 
   const {

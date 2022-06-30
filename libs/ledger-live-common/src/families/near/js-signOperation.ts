@@ -20,6 +20,9 @@ const buildOptimisticOperation = (
     case "stake":
       type = "STAKE";
       break;
+    case "unstake":
+      type = "UNSTAKE";
+      break;
     default:
       type = "OUT";
   }

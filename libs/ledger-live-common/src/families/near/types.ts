@@ -1,9 +1,11 @@
 import type { BigNumber } from "bignumber.js";
-import type {
+import {
+  Account,
+  AccountRaw,
   TransactionCommon,
   TransactionCommonRaw,
-} from "../../types/transaction";
-import { Account, AccountRaw } from "@ledgerhq/types-live";
+} from "@ledgerhq/types-live";
+import type { NearStakingPosition } from "./api/sdk.types";
 
 export type Transaction = TransactionCommon & {
   family: "near";
@@ -32,11 +34,16 @@ export type NearPreloadedData = {
 export type NearResources = {
   stakedBalance: BigNumber;
   storageUsageBalance: BigNumber;
+  stakingPositions: NearStakingPosition[];
 };
 
 export type NearResourcesRaw = {
   stakedBalance: string;
   storageUsageBalance: string;
+  stakingPositions: {
+    amount: string;
+    validatorId: string;
+  }[];
 };
 
 export type NearAccount = Account & { nearResources: NearResources };
