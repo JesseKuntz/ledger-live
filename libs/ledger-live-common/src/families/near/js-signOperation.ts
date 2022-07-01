@@ -23,6 +23,9 @@ const buildOptimisticOperation = (
     case "unstake":
       type = "UNSTAKE";
       break;
+    case "withdraw":
+      type = "WITHDRAW";
+      break;
     default:
       type = "OUT";
   }

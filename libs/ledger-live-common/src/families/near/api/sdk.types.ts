@@ -63,6 +63,8 @@ export type NearStakingDeposit = {
 };
 
 export type NearStakingPosition = {
-  amount: BigNumber;
+  staked: BigNumber;
+  available: BigNumber;
+  pending: BigNumber;
   validatorId: string;
 };

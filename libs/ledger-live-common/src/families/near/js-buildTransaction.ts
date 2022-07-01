@@ -59,6 +59,28 @@ export const buildTransaction = async (
       }
 
       break;
+    case "withdraw":
+      if (t.useAllAmount) {
+        actions.push(
+          nearAPI.transactions.functionCall(
+            "withdraw_all",
+            {},
+            getStakingGas(t).toNumber(),
+            "0"
+          )
+        );
+      } else {
+        actions.push(
+          nearAPI.transactions.functionCall(
+            "withdraw",
+            { amount: parsedNearAmount },
+            getStakingGas().toNumber(),
+            "0"
+          )
+        );
+      }
+
+      break;
     default:
       actions.push(nearAPI.transactions.transfer(parsedNearAmount));
   }

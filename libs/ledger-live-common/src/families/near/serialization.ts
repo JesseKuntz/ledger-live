@@ -6,10 +6,14 @@ export function toNearResourcesRaw(r: NearResources): NearResourcesRaw {
   return {
     stakedBalance: stakedBalance.toString(),
     storageUsageBalance: storageUsageBalance.toString(),
-    stakingPositions: stakingPositions.map(({ amount, validatorId }) => ({
-      amount: amount.toString(),
-      validatorId,
-    })),
+    stakingPositions: stakingPositions.map(
+      ({ staked, validatorId, available, pending }) => ({
+        staked: staked.toString(),
+        available: available.toString(),
+        pending: pending.toString(),
+        validatorId,
+      })
+    ),
   };
 }
 
@@ -18,9 +22,13 @@ export function fromNearResourcesRaw(r: NearResourcesRaw): NearResources {
   return {
     stakedBalance: new BigNumber(stakedBalance),
     storageUsageBalance: new BigNumber(storageUsageBalance),
-    stakingPositions: stakingPositions.map(({ amount, validatorId }) => ({
-      amount: new BigNumber(amount),
-      validatorId,
-    })),
+    stakingPositions: stakingPositions.map(
+      ({ staked, validatorId, available, pending }) => ({
+        staked: new BigNumber(staked),
+        available: new BigNumber(available),
+        pending: new BigNumber(pending),
+        validatorId,
+      })
+    ),
   };
 }

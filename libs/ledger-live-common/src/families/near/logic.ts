@@ -26,9 +26,8 @@ export const isImplicitAccount = (address: string): boolean => {
   return !address.includes(".");
 };
 
-export const getStakingGas = (t?: Transaction): BigNumber => {
+export const getStakingGas = (t?: Transaction, multiplier = 5): BigNumber => {
   const stakingGasBase = new BigNumber(STAKING_GAS_BASE);
-  let multiplier = 5;
 
   if (t?.mode === "withdraw" && t?.useAllAmount) {
     multiplier = 7;
@@ -43,12 +42,16 @@ export const getMaxAmount = (
   fees: BigNumber
 ): BigNumber => {
   let maxAmount;
+  const selectedValidator = a.nearResources?.stakingPositions.find(
+    ({ validatorId }) => validatorId === t.recipient
+  );
 
   switch (t.mode) {
     case "unstake":
-      maxAmount = a.nearResources?.stakingPositions.find(
-        ({ validatorId }) => validatorId === t.recipient
-      )?.amount;
+      maxAmount = selectedValidator?.staked;
+      break;
+    case "withdraw":
+      maxAmount = selectedValidator?.available;
       break;
     default:
       maxAmount = a.spendableBalance.minus(fees);
@@ -62,7 +65,7 @@ export const getTotalSpent = (
   t: Transaction,
   fees: BigNumber
 ): BigNumber => {
-  if (t.mode === "unstake") {
+  if (["unstake", "withdraw"].includes(t.mode)) {
     return fees;
   }
 

@@ -56,11 +56,8 @@ export const getAccount = async (
     }
   }
 
-  const stakingPositions = await getStakingPositions(address);
-  const stakedBalance = stakingPositions.reduce(
-    (sum, { amount }) => sum.plus(amount),
-    new BigNumber(0)
-  );
+  const { stakingPositions, totalStaked, totalAvailable, totalPending } =
+    await getStakingPositions(address);
 
   const { storageCost } = getCurrentNearPreloadData();
 
@@ -76,10 +73,10 @@ export const getAccount = async (
 
   return {
     blockHeight: accountDetails.block_height,
-    balance: balance.plus(stakedBalance),
+    balance: balance.plus(totalStaked).plus(totalAvailable).plus(totalPending),
     spendableBalance,
     nearResources: {
-      stakedBalance,
+      stakedBalance: totalStaked,
       storageUsageBalance: storageUsage.plus(minBalanceBuffer),
       stakingPositions,
     },

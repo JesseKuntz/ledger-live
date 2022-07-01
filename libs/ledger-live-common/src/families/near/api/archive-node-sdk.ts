@@ -86,7 +86,12 @@ export const broadcastTransaction = async (
 
 export const getStakingPositions = async (
   address: string
-): Promise<NearStakingPosition[]> => {
+): Promise<{
+  stakingPositions: NearStakingPosition[];
+  totalStaked: BigNumber;
+  totalAvailable: BigNumber;
+  totalPending: BigNumber;
+}> => {
   const stakingDeposits = await getStakingDeposits(address);
 
   const { connect, keyStores } = nearAPI;
@@ -101,26 +106,62 @@ export const getStakingPositions = async (
   const near = await connect(config);
   const account = await near.account(address);
 
+  let totalStaked = new BigNumber(0);
+  let totalAvailable = new BigNumber(0);
+  let totalPending = new BigNumber(0);
+
   const stakingPositions = await Promise.all(
     stakingDeposits.map(async ({ validator_id: validatorId }) => {
       const contract = new nearAPI.Contract(account, validatorId, {
-        viewMethods: ["get_account_staked_balance"],
+        viewMethods: [
+          "get_account_staked_balance",
+          "get_account_unstaked_balance",
+          "is_account_unstaked_balance_available",
+        ],
         changeMethods: [],
       });
 
-      // Method is dynamically added
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // Methods are dynamically added
+      /* eslint-disable @typescript-eslint/ban-ts-comment */
       // @ts-ignore
-      const amount = await contract.get_account_staked_balance({
+      const rawStaked = await contract.get_account_staked_balance({
         account_id: address,
       });
+      // @ts-ignore
+      const rawUnstaked = await contract.get_account_unstaked_balance({
+        account_id: address,
+      });
+      // @ts-ignore
+      const isAvailable = await contract.is_account_unstaked_balance_available({
+        account_id: address,
+      });
+      /* eslint-enable */
+
+      const unstaked = new BigNumber(rawUnstaked);
+
+      let available = new BigNumber(0);
+      let pending = unstaked;
+      if (isAvailable) {
+        available = unstaked;
+        pending = new BigNumber(0);
+      }
+
+      const staked = new BigNumber(rawStaked);
+      available = new BigNumber(available);
+      pending = new BigNumber(pending);
+
+      totalStaked = totalStaked.plus(staked);
+      totalAvailable = totalAvailable.plus(available);
+      totalPending = totalPending.plus(pending);
 
       return {
-        amount: new BigNumber(amount),
+        staked,
+        available,
+        pending,
         validatorId,
       };
     })
   );
 
-  return stakingPositions;
+  return { stakingPositions, totalStaked, totalAvailable, totalPending };
 };

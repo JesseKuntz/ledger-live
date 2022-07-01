@@ -19,8 +19,8 @@ function formatAccountSpecifics(account: Account): string {
     str += `\n    Staking Positions:\n`;
     str += nearResources.stakingPositions
       .map(
-        ({ validatorId, amount }) =>
-          `        Validator ID: ${validatorId} | Amount: ${amount}`
+        ({ validatorId, staked, pending, available }) =>
+          `        Validator ID: ${validatorId} | Staked: ${staked} | Pending Release: ${pending} | Available: ${available}`
       )
       .join("\n");
   }

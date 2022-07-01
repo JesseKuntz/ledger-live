@@ -41,7 +41,9 @@ export type NearResourcesRaw = {
   stakedBalance: string;
   storageUsageBalance: string;
   stakingPositions: {
-    amount: string;
+    staked: string;
+    available: string;
+    pending: string;
     validatorId: string;
   }[];
 };
