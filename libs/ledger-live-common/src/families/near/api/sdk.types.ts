@@ -68,3 +68,8 @@ export type NearStakingPosition = {
   pending: BigNumber;
   validatorId: string;
 };
+
+export type NearRawValidator = {
+  account_id: string;
+  stake: string;
+};

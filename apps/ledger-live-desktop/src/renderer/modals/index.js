@@ -75,6 +75,8 @@ import MODAL_SOLANA_DELEGATION_DEACTIVATE from "../families/solana/DelegationDea
 import MODAL_SOLANA_DELEGATION_REACTIVATE from "../families/solana/DelegationReactivateFlowModal";
 import MODAL_SOLANA_DELEGATION_WITHDRAW from "../families/solana/DelegationWithdrawFlowModal";
 
+import MODAL_NEAR_STAKE from "../families/near/StakingFlowModal";
+
 // Lending
 import MODAL_LEND_MANAGE from "../screens/lend/modals/ManageLend";
 import MODAL_LEND_ENABLE_INFO from "../screens/lend/modals/EnableInfoModal";
@@ -144,6 +146,7 @@ const modals: { [_: string]: React$ComponentType<any> } = {
   MODAL_SOLANA_DELEGATION_DEACTIVATE,
   MODAL_SOLANA_DELEGATION_REACTIVATE,
   MODAL_SOLANA_DELEGATION_WITHDRAW,
+  MODAL_NEAR_STAKE,
   MODAL_FULL_NODE,
   MODAL_LOTTIE_DEBUGGER,
   MODAL_RECOVERY_SEED_WARNING,

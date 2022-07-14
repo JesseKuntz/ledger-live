@@ -6,6 +6,7 @@ import {
   NearAccessKey,
   NearProtocolConfig,
   NearStakingPosition,
+  NearRawValidator,
 } from "./sdk.types";
 import BigNumber from "bignumber.js";
 
@@ -164,4 +165,52 @@ export const getStakingPositions = async (
   );
 
   return { stakingPositions, totalStaked, totalAvailable, totalPending };
+};
+
+export const getValidators = async (): Promise<NearRawValidator[]> => {
+  const { data } = await network({
+    method: "POST",
+    url: getEnv("API_NEAR_ARCHIVE_NODE"),
+    data: {
+      jsonrpc: "2.0",
+      id: "id",
+      method: "validators",
+      params: [null],
+    },
+  });
+
+  return data?.result?.current_validators || [];
+};
+
+export const getCommission = async (
+  address: string
+): Promise<number | null> => {
+  const { data } = await network({
+    method: "POST",
+    url: getEnv("API_NEAR_ARCHIVE_NODE"),
+    data: {
+      jsonrpc: "2.0",
+      id: "id",
+      method: "query",
+      params: {
+        request_type: "call_function",
+        account_id: address,
+        method_name: "get_reward_fee_fraction",
+        args_base64: "e30=",
+        finality: "optimistic",
+      },
+    },
+  });
+
+  const result = data?.result?.result;
+
+  if (Array.isArray(result) && result.length) {
+    const parsedResult = JSON.parse(String.fromCharCode.apply(null, result));
+
+    return +((parsedResult.numerator / parsedResult.denominator) * 100).toFixed(
+      2
+    );
+  }
+
+  return null;
 };

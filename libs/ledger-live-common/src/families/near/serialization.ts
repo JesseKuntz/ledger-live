@@ -18,7 +18,7 @@ export function toNearResourcesRaw(r: NearResources): NearResourcesRaw {
 }
 
 export function fromNearResourcesRaw(r: NearResourcesRaw): NearResources {
-  const { stakedBalance, storageUsageBalance, stakingPositions } = r;
+  const { stakedBalance, storageUsageBalance, stakingPositions = [] } = r;
   return {
     stakedBalance: new BigNumber(stakedBalance),
     storageUsageBalance: new BigNumber(storageUsageBalance),

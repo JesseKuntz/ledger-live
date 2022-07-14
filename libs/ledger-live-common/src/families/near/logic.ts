@@ -6,6 +6,7 @@ export const FALLBACK_STORAGE_AMOUNT_PER_BYTE = "10000000000000000000";
 export const NEW_ACCOUNT_SIZE = 182;
 export const MIN_ACCOUNT_BALANCE_BUFFER = "1000000000000000000";
 export const STAKING_GAS_BASE = "25000000000000";
+export const FIGMENT_NEAR_VALIDATOR_ADDRESS = "figment.poolv1.near";
 
 /*
  * Validate a NEAR address.

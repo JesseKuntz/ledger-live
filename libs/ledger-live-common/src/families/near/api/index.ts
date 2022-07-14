@@ -9,5 +9,7 @@ export {
   getAccessKey,
   broadcastTransaction,
   getStakingPositions,
+  getValidators,
+  getCommission,
 } from "./archive-node-sdk";
 export { getStakingDeposits } from "./near-indexer-sdk";

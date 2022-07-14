@@ -29,6 +29,7 @@ export type NearPreloadedData = {
   addKeyCostExecution: BigNumber;
   receiptCreationSend: BigNumber;
   receiptCreationExecution: BigNumber;
+  validators: NearValidatorItem[];
 };
 
 export type NearResources = {
@@ -52,4 +53,10 @@ export type NearAccount = Account & { nearResources: NearResources };
 
 export type NearAccountRaw = AccountRaw & {
   nearResources: NearResourcesRaw;
+};
+
+export type NearValidatorItem = {
+  validatorAddress: string;
+  commission: number | null;
+  tokens: string;
 };

@@ -2911,6 +2911,33 @@
       "stakedBalanceTooltip": "This amount is currently staked with validators.",
       "storageUsageBalance": "Storage usage",
       "storageUsageBalanceTooltip": "This amount is reserved for storage, and is the minimum balance that your account must maintain to remain active."
+    },
+    "stake": {
+      "commission": "Commission",
+      "totalStake": "Total Stake",
+      "flow": {
+        "title": "Stake",
+        "steps": {
+          "amount": {
+            "title": "Amount"
+          },
+          "validator": {
+            "title": "Validators"
+          },
+          "connectDevice": {
+            "title": "Device"
+          },
+          "confirmation": {
+            "title": "Confirmation",
+            "success": {
+              "title": "You have successfully staked your assets",
+              "text": "Your account balance will be updated when the blockchain confirms the transaction.",
+              "cta": "View details"
+            },
+            "broadcastError": "Your transaction may have failed. Please wait a moment then check the transaction history before trying again."
+          }
+        }
+      }
     }
   },
   "delegation": {
@@ -3930,6 +3957,7 @@
       "claimRewardCompound": "validator that will receive the rewards",
       "optIn": "recipient",
       "nominate": "validator",
+      "stake": "validator",
       "erc721": {
         "transfer": "recipient"
       },

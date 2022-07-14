@@ -2,7 +2,7 @@ import { BigNumber } from "bignumber.js";
 import { Observable, Subject } from "rxjs";
 import { log } from "@ledgerhq/logs";
 import type { NearPreloadedData } from "./types";
-import { getProtocolConfig } from "./api";
+import { getProtocolConfig, getValidators, getCommission } from "./api";
 import { FALLBACK_STORAGE_AMOUNT_PER_BYTE } from "./logic";
 import { NearProtocolConfigNotLoaded } from "./errors";
 
@@ -18,6 +18,7 @@ let currentPreloadedData: NearPreloadedData = {
   addKeyCostExecution: new BigNumber(0),
   receiptCreationSend: new BigNumber(0),
   receiptCreationExecution: new BigNumber(0),
+  validators: [],
 };
 
 function fromHydratePreloadData(data: any): NearPreloadedData {
@@ -63,6 +64,9 @@ function fromHydratePreloadData(data: any): NearPreloadedData {
         data.receiptCreationExecution
       );
     }
+    if (Array.isArray(data.validators) && data.validators.length) {
+      hydratedData.validators = data.validators;
+    }
   }
 
   return hydratedData;
@@ -93,7 +97,22 @@ export const getPreloadStrategy = () => ({
 export const preload = async (): Promise<NearPreloadedData> => {
   log("near/preload", "preloading near data...");
 
-  const protocolConfig = await getProtocolConfig();
+  const [protocolConfig, rawValidators] = await Promise.all([
+    getProtocolConfig(),
+    getValidators(),
+  ]);
+
+  const validators = await Promise.all(
+    rawValidators.map(async ({ account_id, stake }) => {
+      const commission = await getCommission(account_id);
+
+      return {
+        validatorAddress: account_id,
+        tokens: stake,
+        commission,
+      };
+    })
+  );
 
   if (!protocolConfig) {
     throw new NearProtocolConfigNotLoaded();
@@ -131,6 +150,7 @@ export const preload = async (): Promise<NearPreloadedData> => {
     receiptCreationExecution: new BigNumber(
       action_receipt_creation_config.execution
     ),
+    validators,
   };
 };
 
