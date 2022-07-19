@@ -9,7 +9,7 @@ import type { StepProps, St } from "../types";
 export function useSteps(): St[] {
   const { t } = useTranslation();
 
-  return useMemo < St[] > (
+  return useMemo<St[]>(
     () => [
       {
         id: "amount",
