@@ -34,10 +34,24 @@ const AccountHeaderActions = ({ account, parentAccount }: Props) => {
   // TODO: add a validation for the account balance + disable stake button if balance is too low
   return [
     {
-      key: "delegate",
+      key: "stake",
       onClick: onClick,
       icon: IconCoins,
       label: t("account.stake"),
+    },
+    // TODO: move to the staking info dashboard when ready
+    {
+      key: "unstake",
+      onClick: () => {
+        dispatch(
+          openModal("MODAL_NEAR_UNSTAKE", {
+            account,
+            validatorAddress: "figment.poolv1.near",
+          }),
+        );
+      },
+      icon: IconCoins,
+      label: t("near.unstake.flow.title"),
     },
   ];
 };

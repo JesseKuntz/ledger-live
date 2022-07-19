@@ -1,6 +1,12 @@
 import { BigNumber } from "bignumber.js";
-import type { Account } from "../../types";
-import { Transaction } from "./types";
+import { formatCurrencyUnit } from "../../currencies";
+import type { Account, Unit } from "../../types";
+import {
+  NearMappedStakingPosition,
+  Transaction,
+  NearStakingPosition,
+  NearValidatorItem,
+} from "./types";
 
 export const FALLBACK_STORAGE_AMOUNT_PER_BYTE = "10000000000000000000";
 export const NEW_ACCOUNT_SIZE = 182;
@@ -75,4 +81,27 @@ export const getTotalSpent = (
   }
 
   return new BigNumber(t.amount).plus(fees);
+};
+
+export const mapStakingPositions = (
+  stakingPositions: NearStakingPosition[],
+  validators: NearValidatorItem[],
+  unit: Unit
+): NearMappedStakingPosition[] => {
+  return stakingPositions.map((sp) => {
+    const rank = validators.findIndex(
+      (v) => v.validatorAddress === sp.validatorId
+    );
+    const validator = validators[rank] ?? sp;
+    return {
+      ...sp,
+      formattedAmount: formatCurrencyUnit(unit, sp.staked, {
+        disableRounding: false,
+        alwaysShowSign: false,
+        showCode: true,
+      }),
+      rank,
+      validator,
+    };
+  });
 };

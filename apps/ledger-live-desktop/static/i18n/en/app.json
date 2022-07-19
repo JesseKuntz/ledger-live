@@ -2938,6 +2938,34 @@
           }
         }
       }
+    },
+    "unstake": {
+      "flow": {
+        "title": "Unstake",
+        "steps": {
+          "amount": {
+            "title": "Amount",
+            "subtitle": "The unstaking process takes <0>52 to 65 hours</0> to finalize.",
+            "warning": "Rewards will be immediately cashed in. The unstaked amount will be available for withdrawal after the <0>52 to 65 hour timelock</0>.",
+            "fields": {
+              "validator": "Validator",
+              "amount": "Amount to undelegate"
+            }
+          },
+          "connectDevice": {
+            "title": "Device"
+          },
+          "confirmation": {
+            "title": "Confirmation",
+            "success": {
+              "title": "You have successfully unstaked your assets.",
+              "description": "<0>{{amount}}</0> were unstaked from <0>{{validator}}</0>",
+              "cta": "View details"
+            },
+            "broadcastError": "Your transaction may have failed. Please wait a moment then check the transaction history before trying again."
+          }
+        }
+      }
     }
   },
   "delegation": {
@@ -3958,6 +3986,7 @@
       "optIn": "recipient",
       "nominate": "validator",
       "stake": "validator",
+      "unstake": "validator",
       "erc721": {
         "transfer": "recipient"
       },

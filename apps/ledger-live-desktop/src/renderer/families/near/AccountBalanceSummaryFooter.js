@@ -82,9 +82,6 @@ const AccountBalanceSummaryFooter = ({ account, countervalue }: Props) => {
     locale,
   };
 
-  console.log("inside of the balance summary footer");
-  console.log(account.nearResources);
-
   const spendableBalance = formatCurrencyUnit(unit, _spendableBalance, formatConfig);
   const stakedBalance = formatCurrencyUnit(unit, _stakedBalance, formatConfig);
   const storageUsageBalance = formatCurrencyUnit(unit, _storageUsageBalance, formatConfig);

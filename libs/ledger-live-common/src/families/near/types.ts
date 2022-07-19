@@ -7,6 +7,8 @@ import {
 } from "@ledgerhq/types-live";
 import type { NearStakingPosition } from "./api/sdk.types";
 
+export type { NearStakingPosition } from "./api/sdk.types";
+
 export type Transaction = TransactionCommon & {
   family: "near";
   mode: string;
@@ -59,4 +61,10 @@ export type NearValidatorItem = {
   validatorAddress: string;
   commission: number | null;
   tokens: string;
+};
+
+export type NearMappedStakingPosition = NearStakingPosition & {
+  formattedAmount: string;
+  rank: number;
+  validator: NearValidatorItem | null | undefined;
 };
