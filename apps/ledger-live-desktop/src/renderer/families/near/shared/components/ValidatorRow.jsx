@@ -1,9 +1,9 @@
 // @flow
-import { formatCurrencyUnit } from "@ledgerhq/live-common/lib/currencies";
-import { getDefaultExplorerView, getAddressExplorer } from "@ledgerhq/live-common/lib/explorers";
-import { FIGMENT_NEAR_VALIDATOR_ADDRESS } from "@ledgerhq/live-common/lib/families/near/logic";
-import type { NearValidatorItem } from "@ledgerhq/live-common/lib/families/near/types";
-import type { CryptoCurrency, Unit } from "@ledgerhq/live-common/lib/types";
+import { formatCurrencyUnit } from "@ledgerhq/live-common/currencies/index";
+import { getDefaultExplorerView, getAddressExplorer } from "@ledgerhq/live-common/explorers";
+import { FIGMENT_NEAR_VALIDATOR_ADDRESS } from "@ledgerhq/live-common/families/near/logic";
+import type { NearValidatorItem } from "@ledgerhq/live-common/families/near/types";
+import type { CryptoCurrency, Unit } from "@ledgerhq/live-common/types/index";
 
 import { BigNumber } from "bignumber.js";
 import React, { useCallback } from "react";

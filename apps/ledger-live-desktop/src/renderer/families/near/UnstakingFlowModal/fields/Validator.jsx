@@ -1,12 +1,12 @@
 // @flow
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useNearStakingPositionsQuerySelector } from "@ledgerhq/live-common/lib/families/near/react";
+import { useNearStakingPositionsQuerySelector } from "@ledgerhq/live-common/families/near/react";
 import type {
   Transaction,
   NearMappedStakingPosition,
-} from "@ledgerhq/live-common/lib/families/near/types";
-import type { Account } from "@ledgerhq/live-common/lib/types";
+} from "@ledgerhq/live-common/families/near/types";
+import type { Account } from "@ledgerhq/live-common/types/index";
 import LedgerValidatorIcon from "~/renderer/families/near/shared/components/LedgerValidatorIcon";
 import Box from "~/renderer/components/Box";
 import Label from "~/renderer/components/Label";

@@ -1,8 +1,8 @@
 // @flow
 import React, { useState } from "react";
 
-import { getAccountUnit } from "@ledgerhq/live-common/lib/account";
-import { useLedgerFirstShuffledValidatorsNear } from "@ledgerhq/live-common/lib/families/near/react";
+import { getAccountUnit } from "@ledgerhq/live-common/account/index";
+import { useLedgerFirstShuffledValidatorsNear } from "@ledgerhq/live-common/families/near/react";
 
 import styled from "styled-components";
 import Box from "~/renderer/components/Box";
@@ -12,8 +12,8 @@ import { Trans } from "react-i18next";
 import IconAngleDown from "~/renderer/icons/AngleDown";
 import ValidatorRow from "~/renderer/families/near/shared/components/ValidatorRow";
 import type { ThemedComponent } from "~/renderer/styles/StyleProvider";
-import type { Account } from "@ledgerhq/live-common/lib/types";
-import type { NearValidatorItem } from "@ledgerhq/live-common/lib/families/near/types";
+import type { Account } from "@ledgerhq/live-common/types/index";
+import type { NearValidatorItem } from "@ledgerhq/live-common/families/near/types";
 
 type Props = {
   account: Account,

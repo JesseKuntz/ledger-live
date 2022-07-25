@@ -1,8 +1,8 @@
 // @flow
-import type { NearValidatorItem } from "@ledgerhq/live-common/lib/families/near/types";
+import type { NearValidatorItem } from "@ledgerhq/live-common/families/near/types";
 
 import React from "react";
-import { FIGMENT_NEAR_VALIDATOR_ADDRESS } from "@ledgerhq/live-common/lib/families/near/logic";
+import { FIGMENT_NEAR_VALIDATOR_ADDRESS } from "@ledgerhq/live-common/families/near/logic";
 import { IconContainer } from "~/renderer/components/Delegation/ValidatorRow";
 import LedgerLiveLogo from "~/renderer/components/LedgerLiveLogo";
 import Logo from "~/renderer/icons/Logo";
