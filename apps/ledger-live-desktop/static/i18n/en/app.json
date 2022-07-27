@@ -2913,6 +2913,22 @@
       "storageUsageBalanceTooltip": "This amount is reserved for storage, and is the minimum balance that your account must maintain to remain active."
     },
     "stake": {
+      "emptyState": {
+        "description": "You can earn NEAR rewards by staking your assets.",
+        "info": "How Staking Works",
+        "earnRewards": "Earn rewards"
+      },
+      "table": {
+        "header": "Staking Position(s)",
+        "stake": "Add",
+        "staked": "Staked",
+        "pending": "Pending Release",
+        "available": "Available"
+      },
+      "unstake": "Unstake",
+      "withdraw": "Withdraw",
+      "activeTooltip": "Staked amounts generate rewards",
+      "inactiveTooltip": "Unstaked amounts do not generate rewards",
       "commission": "Commission",
       "totalStake": "Total Stake",
       "flow": {

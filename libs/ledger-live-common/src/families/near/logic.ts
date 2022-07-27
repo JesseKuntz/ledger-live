@@ -93,13 +93,18 @@ export const mapStakingPositions = (
       (v) => v.validatorAddress === sp.validatorId
     );
     const validator = validators[rank] ?? sp;
+    const formatConfig = {
+      disableRounding: false,
+      alwaysShowSign: false,
+      showCode: true,
+    };
+
     return {
       ...sp,
-      formattedAmount: formatCurrencyUnit(unit, sp.staked, {
-        disableRounding: false,
-        alwaysShowSign: false,
-        showCode: true,
-      }),
+      formattedAmount: formatCurrencyUnit(unit, sp.staked, formatConfig),
+      formattedRewards: formatCurrencyUnit(unit, sp.rewards, formatConfig),
+      formattedPending: formatCurrencyUnit(unit, sp.pending, formatConfig),
+      formattedAvailable: formatCurrencyUnit(unit, sp.available, formatConfig),
       rank,
       validator,
     };

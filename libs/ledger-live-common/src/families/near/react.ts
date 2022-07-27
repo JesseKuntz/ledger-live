@@ -11,7 +11,7 @@ import { getCurrentNearPreloadData } from "./preload";
 import type { Account } from "../../types";
 import { getAccountUnit } from "../../account";
 
-function useNearMappedStakingPositions(
+export function useNearMappedStakingPositions(
   account: Account
 ): NearMappedStakingPosition[] {
   const { validators } = getCurrentNearPreloadData();

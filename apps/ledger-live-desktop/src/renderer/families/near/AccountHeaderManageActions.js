@@ -39,20 +39,6 @@ const AccountHeaderActions = ({ account, parentAccount }: Props) => {
       icon: IconCoins,
       label: t("account.stake"),
     },
-    // TODO: move to the staking info dashboard when ready
-    {
-      key: "unstake",
-      onClick: () => {
-        dispatch(
-          openModal("MODAL_NEAR_UNSTAKE", {
-            account,
-            validatorAddress: "figment.poolv1.near",
-          }),
-        );
-      },
-      icon: IconCoins,
-      label: t("near.unstake.flow.title"),
-    },
   ];
 };
 

@@ -47,6 +47,7 @@ export type NearResourcesRaw = {
     staked: string;
     available: string;
     pending: string;
+    rewards: string;
     validatorId: string;
   }[];
 };
@@ -65,6 +66,7 @@ export type NearValidatorItem = {
 
 export type NearMappedStakingPosition = NearStakingPosition & {
   formattedAmount: string;
+  formattedRewards: string;
   rank: number;
   validator: NearValidatorItem | null | undefined;
 };

@@ -112,12 +112,13 @@ export const getStakingPositions = async (
   let totalPending = new BigNumber(0);
 
   const stakingPositions = await Promise.all(
-    stakingDeposits.map(async ({ validator_id: validatorId }) => {
+    stakingDeposits.map(async ({ validator_id: validatorId, deposit }) => {
       const contract = new nearAPI.Contract(account, validatorId, {
         viewMethods: [
           "get_account_staked_balance",
           "get_account_unstaked_balance",
           "is_account_unstaked_balance_available",
+          "get_account_total_balance",
         ],
         changeMethods: [],
       });
@@ -136,6 +137,10 @@ export const getStakingPositions = async (
       const isAvailable = await contract.is_account_unstaked_balance_available({
         account_id: address,
       });
+      // @ts-ignore
+      const rawTotal = await contract.get_account_total_balance({
+        account_id: address,
+      });
       /* eslint-enable */
 
       const unstaked = new BigNumber(rawUnstaked);
@@ -146,10 +151,12 @@ export const getStakingPositions = async (
         available = unstaked;
         pending = new BigNumber(0);
       }
+      let rewards = new BigNumber(0);
 
       const staked = new BigNumber(rawStaked);
       available = new BigNumber(available);
       pending = new BigNumber(pending);
+      rewards = new BigNumber(rawTotal).minus(deposit);
 
       totalStaked = totalStaked.plus(staked);
       totalAvailable = totalAvailable.plus(available);
@@ -159,6 +166,7 @@ export const getStakingPositions = async (
         staked,
         available,
         pending,
+        rewards,
         validatorId,
       };
     })
