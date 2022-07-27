@@ -77,6 +77,7 @@ import MODAL_SOLANA_DELEGATION_WITHDRAW from "../families/solana/DelegationWithd
 
 import MODAL_NEAR_STAKE from "../families/near/StakingFlowModal";
 import MODAL_NEAR_UNSTAKE from "../families/near/UnstakingFlowModal";
+import MODAL_NEAR_WITHDRAW from "../families/near/WithdrawingFlowModal";
 
 // Lending
 import MODAL_LEND_MANAGE from "../screens/lend/modals/ManageLend";
@@ -149,6 +150,7 @@ const modals: { [_: string]: React$ComponentType<any> } = {
   MODAL_SOLANA_DELEGATION_WITHDRAW,
   MODAL_NEAR_STAKE,
   MODAL_NEAR_UNSTAKE,
+  MODAL_NEAR_WITHDRAW,
   MODAL_FULL_NODE,
   MODAL_LOTTIE_DEBUGGER,
   MODAL_RECOVERY_SEED_WARNING,

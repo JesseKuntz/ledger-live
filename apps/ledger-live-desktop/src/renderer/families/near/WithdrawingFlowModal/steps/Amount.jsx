@@ -10,8 +10,6 @@ import TrackPage from "~/renderer/analytics/TrackPage";
 import Box from "~/renderer/components/Box";
 import Button from "~/renderer/components/Button";
 import { ValidatorField, AmountField } from "../fields";
-import Text from "~/renderer/components/Text";
-import Alert from "~/renderer/components/Alert";
 import ErrorBanner from "~/renderer/components/ErrorBanner";
 import AccountFooter from "~/renderer/modals/Send/AccountFooter";
 
@@ -42,8 +40,8 @@ export default function StepAmount({
   );
 
   const onChangeValidator = useCallback(
-    ({ validatorId, staked }: NearMappedStakingPosition) => {
-      updateValidator({ address: validatorId, amount: staked });
+    ({ validatorId, available }: NearMappedStakingPosition) => {
+      updateValidator({ address: validatorId, amount: available });
     },
     [updateValidator],
   );
@@ -63,15 +61,8 @@ export default function StepAmount({
 
   return (
     <Box flow={1}>
-      <TrackPage category="Unstaking Flow" name="Step 1" />
+      <TrackPage category="Withdrawing Flow" name="Step 1" />
       {error && <ErrorBanner error={error} />}
-      <Box horizontal justifyContent="center" mb={2}>
-        <Text ff="Inter|Medium" fontSize={4}>
-          <Trans i18nKey="near.unstake.flow.steps.amount.subtitle">
-            <b></b>
-          </Trans>
-        </Text>
-      </Box>
       <ValidatorField account={account} transaction={transaction} onChange={onChangeValidator} />
       <AmountField
         amount={amount}
@@ -79,13 +70,8 @@ export default function StepAmount({
         account={account}
         status={status}
         onChange={onChangeAmount}
-        label={<Trans i18nKey="near.unstake.flow.steps.amount.fields.amount" />}
+        label={<Trans i18nKey="near.withdraw.flow.steps.amount.fields.amount" />}
       />
-      <Alert info="primary" mt={2}>
-        <Trans i18nKey="near.unstake.flow.steps.amount.warning">
-          <b></b>
-        </Trans>
-      </Alert>
     </Box>
   );
 }

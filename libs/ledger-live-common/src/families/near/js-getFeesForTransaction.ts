@@ -11,11 +11,7 @@ const getEstimatedFees = async (
   const gasPrice = new BigNumber(rawGasPrice);
 
   if (["stake", "unstake", "withdraw"].includes(transaction.mode)) {
-    let stakingGas = getStakingGas(transaction);
-
-    if (transaction.mode === "withdraw") {
-      stakingGas = getStakingGas(transaction, 3);
-    }
+    const stakingGas = getStakingGas(transaction);
 
     // TODO: figure out why it needs to be divided by 10
     return stakingGas

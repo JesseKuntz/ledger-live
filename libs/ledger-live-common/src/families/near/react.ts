@@ -40,8 +40,11 @@ export function useNearStakingPositionsQuerySelector(
 } {
   const stakingPositions = useNearMappedStakingPositions(account);
   const options = useMemo<NearMappedStakingPosition[]>(
-    () => stakingPositions.filter((sp) => sp.staked.gt(0)),
-    [stakingPositions]
+    () =>
+      stakingPositions.filter((sp) =>
+        transaction.mode === "unstake" ? sp.staked.gt(0) : sp.available.gt(0)
+      ),
+    [stakingPositions, transaction]
   );
 
   const selectedValidatorAddress = transaction.recipient;
