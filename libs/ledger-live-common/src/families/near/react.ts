@@ -63,12 +63,23 @@ export function useNearStakingPositionsQuerySelector(
   };
 }
 
-export function useLedgerFirstShuffledValidatorsNear() {
-  const { validators } = getCurrentNearPreloadData();
+export function useLedgerFirstShuffledValidatorsNear(search: string) {
+  const { validators: unorderedValidators } = getCurrentNearPreloadData();
+  const validators = reorderValidators(unorderedValidators);
 
   return useMemo(() => {
-    return reorderValidators(validators);
-  }, [validators]);
+    if (validators.length === 0 || !search || search === "") {
+      return validators;
+    }
+
+    const lowercaseSearch = search.toLowerCase();
+
+    const filtered = validators.filter((validator) =>
+      validator.validatorAddress?.toLowerCase().includes(lowercaseSearch)
+    );
+
+    return filtered;
+  }, [validators, search]);
 }
 
 function reorderValidators(
