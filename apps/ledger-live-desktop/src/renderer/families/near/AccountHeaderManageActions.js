@@ -1,5 +1,6 @@
 // @flow
 import { getMainAccount } from "@ledgerhq/live-common/account/helpers";
+import { canStake } from "@ledgerhq/live-common/families/near/logic";
 import type { Account, AccountLike } from "@ledgerhq/live-common/types/index";
 import invariant from "invariant";
 import { useCallback } from "react";
@@ -20,6 +21,7 @@ const AccountHeaderActions = ({ account, parentAccount }: Props) => {
 
   const { nearResources } = mainAccount;
   invariant(nearResources, "near account expected");
+  const stakingEnabled = canStake(mainAccount);
 
   const onClick = useCallback(() => {
     dispatch(
@@ -31,13 +33,16 @@ const AccountHeaderActions = ({ account, parentAccount }: Props) => {
 
   if (parentAccount) return null;
 
-  // TODO: add a validation for the account balance + disable stake button if balance is too low
+  const disabledLabel = stakingEnabled ? "" : t("near.stake.minSafeWarning");
+
   return [
     {
       key: "stake",
       onClick: onClick,
       icon: IconCoins,
       label: t("account.stake"),
+      disabled: !stakingEnabled,
+      tooltip: disabledLabel,
     },
   ];
 };

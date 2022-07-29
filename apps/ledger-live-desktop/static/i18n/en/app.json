@@ -2931,6 +2931,7 @@
       "inactiveTooltip": "Unstaked amounts do not generate rewards",
       "commission": "Commission",
       "totalStake": "Total Stake",
+      "minSafeWarning": "Not enough funds",
       "flow": {
         "title": "Stake",
         "steps": {
@@ -2956,6 +2957,7 @@
       }
     },
     "unstake": {
+      "disabledTooltip": "There aren't enough staked assets to unstake",
       "flow": {
         "title": "Unstake",
         "steps": {
@@ -2984,6 +2986,7 @@
       }
     },
     "withdraw": {
+      "disabledTooltip": "There aren't enough available assets to withdraw",
       "flow": {
         "title": "Withdraw",
         "steps": {

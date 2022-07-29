@@ -7,6 +7,7 @@ import { Trans } from "react-i18next";
 import type { ThemedComponent } from "~/renderer/styles/StyleProvider";
 import type { NearMappedStakingPosition } from "@ledgerhq/live-common/families/near/types";
 import type { Account } from "@ledgerhq/live-common/types/index";
+import { canUnstake, canWithdraw } from "@ledgerhq/live-common/families/near/logic";
 
 import { TableLine } from "./Header";
 import DropDown, { DropDownItem } from "~/renderer/components/DropDownSelector";
@@ -72,14 +73,14 @@ const ManageDropDownItem = ({
 
 type Props = {
   account: Account,
-  delegation: NearMappedStakingPosition,
+  stakingPosition: NearMappedStakingPosition,
   onManageAction: (address: string, action: "MODAL_NEAR_UNSTAKE" | "MODAL_NEAR_WITHDRAW") => void,
   onExternalLink: (address: string) => void,
 };
 
 export function Row({
   account,
-  delegation: {
+  stakingPosition: {
     validatorId,
     staked,
     formattedAmount,
@@ -88,9 +89,13 @@ export function Row({
     formattedAvailable,
     validator,
   },
+  stakingPosition,
   onManageAction,
   onExternalLink,
 }: Props) {
+  const unstakingEnabled = canUnstake(stakingPosition);
+  const withdawingEnabled = canWithdraw(stakingPosition);
+
   const onSelect = useCallback(
     action => {
       onManageAction(validatorId, action.key);
@@ -102,10 +107,22 @@ export function Row({
     {
       key: "MODAL_NEAR_UNSTAKE",
       label: <Trans i18nKey="near.stake.unstake" />,
+      disabled: !unstakingEnabled,
+      tooltip: !unstakingEnabled ? (
+        <Trans i18nKey="near.unstake.disabledTooltip">
+          <b></b>
+        </Trans>
+      ) : null,
     },
     {
       key: "MODAL_NEAR_WITHDRAW",
       label: <Trans i18nKey="near.stake.withdraw" />,
+      disabled: !withdawingEnabled,
+      tooltip: !withdawingEnabled ? (
+        <Trans i18nKey="near.withdraw.disabledTooltip">
+          <b></b>
+        </Trans>
+      ) : null,
     },
   ];
 

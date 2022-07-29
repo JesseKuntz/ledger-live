@@ -1,4 +1,5 @@
 import { BigNumber } from "bignumber.js";
+import { utils } from "near-api-js";
 import { formatCurrencyUnit } from "../../currencies";
 import type { Account, Unit } from "../../types";
 import {
@@ -7,12 +8,15 @@ import {
   NearStakingPosition,
   NearValidatorItem,
 } from "./types";
+import { createTransaction, updateTransaction } from "./js-transaction";
+import { getCurrentNearPreloadData } from "./preload";
 
 export const FALLBACK_STORAGE_AMOUNT_PER_BYTE = "10000000000000000000";
 export const NEW_ACCOUNT_SIZE = 182;
 export const MIN_ACCOUNT_BALANCE_BUFFER = "1000000000000000000";
 export const STAKING_GAS_BASE = "25000000000000";
 export const FIGMENT_NEAR_VALIDATOR_ADDRESS = "figment.poolv1.near";
+export const FRACTIONAL_DIGITS = 5;
 
 /*
  * Validate a NEAR address.
@@ -109,4 +113,51 @@ export const mapStakingPositions = (
       validator,
     };
   });
+};
+
+/*
+ * Make sure that an account has enough funds to stake, unstake, AND withdraw before staking.
+ */
+export const canStake = (a: Account): boolean => {
+  let transaction = createTransaction();
+  transaction = updateTransaction(transaction, {
+    mode: "stake",
+  });
+
+  const { gasPrice } = getCurrentNearPreloadData();
+
+  const fees = getStakingFees(transaction, gasPrice).multipliedBy(3);
+
+  return a.spendableBalance.minus(fees).gt(0);
+};
+
+export const canUnstake = (
+  stakingPosition: NearMappedStakingPosition
+): boolean => {
+  return stakingPosition.staked.gt(getYoctoThreshold());
+};
+
+export const canWithdraw = (
+  stakingPosition: NearMappedStakingPosition
+): boolean => {
+  return stakingPosition.available.gt(getYoctoThreshold());
+};
+
+export const getYoctoThreshold = (): BigNumber => {
+  return new BigNumber(10).pow(
+    new BigNumber(utils.format.NEAR_NOMINATION_EXP - FRACTIONAL_DIGITS)
+  );
+};
+
+export const getStakingFees = (
+  t: Transaction,
+  gasPrice: BigNumber
+): BigNumber => {
+  const stakingGas = getStakingGas(t);
+
+  // TODO: figure out why it needs to be divided by 10
+  return stakingGas
+    .plus(STAKING_GAS_BASE) // Buffer
+    .multipliedBy(gasPrice)
+    .dividedBy(10);
 };

@@ -2,7 +2,12 @@ import { BigNumber } from "bignumber.js";
 import { Observable, Subject } from "rxjs";
 import { log } from "@ledgerhq/logs";
 import type { NearPreloadedData } from "./types";
-import { getProtocolConfig, getValidators, getCommission } from "./api";
+import {
+  getProtocolConfig,
+  getValidators,
+  getCommission,
+  getGasPrice,
+} from "./api";
 import { FALLBACK_STORAGE_AMOUNT_PER_BYTE } from "./logic";
 import { NearProtocolConfigNotLoaded } from "./errors";
 
@@ -10,6 +15,7 @@ const PRELOAD_MAX_AGE = 30 * 60 * 1000;
 
 let currentPreloadedData: NearPreloadedData = {
   storageCost: new BigNumber(FALLBACK_STORAGE_AMOUNT_PER_BYTE),
+  gasPrice: new BigNumber(0),
   createAccountCostSend: new BigNumber(0),
   createAccountCostExecution: new BigNumber(0),
   transferCostSend: new BigNumber(0),
@@ -27,6 +33,9 @@ function fromHydratePreloadData(data: any): NearPreloadedData {
   if (typeof data === "object" && data) {
     if (data.storageCost) {
       hydratedData.storageCost = new BigNumber(data.storageCost);
+    }
+    if (data.gasPrice) {
+      hydratedData.gasPrice = new BigNumber(data.gasPrice);
     }
     if (data.createAccountCostSend) {
       hydratedData.createAccountCostSend = new BigNumber(
@@ -97,9 +106,10 @@ export const getPreloadStrategy = () => ({
 export const preload = async (): Promise<NearPreloadedData> => {
   log("near/preload", "preloading near data...");
 
-  const [protocolConfig, rawValidators] = await Promise.all([
+  const [protocolConfig, rawValidators, gasPrice] = await Promise.all([
     getProtocolConfig(),
     getValidators(),
+    getGasPrice(),
   ]);
 
   const validators = await Promise.all(
@@ -126,6 +136,7 @@ export const preload = async (): Promise<NearPreloadedData> => {
 
   return {
     storageCost: new BigNumber(storage_amount_per_byte),
+    gasPrice: new BigNumber(gasPrice),
     createAccountCostSend: new BigNumber(
       action_creation_config.create_account_cost.send_not_sir
     ),

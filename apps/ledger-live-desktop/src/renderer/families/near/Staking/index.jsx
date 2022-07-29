@@ -19,7 +19,11 @@ import IconChartLine from "~/renderer/icons/ChartLine";
 import { Header } from "./Header";
 import { Row } from "./Row";
 
-import { FIGMENT_NEAR_VALIDATOR_ADDRESS } from "@ledgerhq/live-common/families/near/logic";
+import {
+  FIGMENT_NEAR_VALIDATOR_ADDRESS,
+  canStake,
+} from "@ledgerhq/live-common/families/near/logic";
+import ToolTip from "~/renderer/components/Tooltip";
 import DelegateIcon from "~/renderer/icons/Delegate";
 import TableContainer, { TableHeader } from "~/renderer/components/TableContainer";
 
@@ -40,9 +44,10 @@ const Staking = ({ account }: Props) => {
 
   const { nearResources } = account;
   invariant(nearResources, "near account expected");
-  const { stakingPositions } = nearResources;
 
+  const { stakingPositions } = nearResources;
   const mappedStakingPositions = useNearMappedStakingPositions(account);
+  const stakingEnabled = canStake(account);
 
   const onStake = useCallback(() => {
     dispatch(
@@ -89,30 +94,35 @@ const Staking = ({ account }: Props) => {
           titleProps={{ "data-e2e": "title_Staking" }}
         >
           {hasStakingPositions ? (
-            <Button
-              id={"account-stake-button"}
-              mr={2}
-              color="palette.primary.main"
-              small
-              onClick={onStake}
+            <ToolTip
+              content={!stakingEnabled ? <Trans i18nKey="near.stake.minSafeWarning" /> : null}
             >
-              <Box horizontal flow={1} alignItems="center">
-                <DelegateIcon size={12} />
-                <Box>
-                  <Trans i18nKey="near.stake.table.stake" />
+              <Button
+                id={"account-stake-button"}
+                mr={2}
+                color="palette.primary.main"
+                small
+                disabled={!stakingEnabled}
+                onClick={onStake}
+              >
+                <Box horizontal flow={1} alignItems="center">
+                  <DelegateIcon size={12} />
+                  <Box>
+                    <Trans i18nKey="near.stake.table.stake" />
+                  </Box>
                 </Box>
-              </Box>
-            </Button>
+              </Button>
+            </ToolTip>
           ) : null}
         </TableHeader>
         {hasStakingPositions ? (
           <>
             <Header />
-            {mappedStakingPositions.map((delegation, index) => (
+            {mappedStakingPositions.map((stakingPosition, index) => (
               <Row
                 key={index}
                 account={account}
-                delegation={delegation}
+                stakingPosition={stakingPosition}
                 onManageAction={onRedirect}
                 onExternalLink={onExternalLink}
               />
@@ -135,14 +145,18 @@ const Staking = ({ account }: Props) => {
               </Box>
             </Box>
             <Box>
-              <Button primary small onClick={onStake}>
-                <Box horizontal flow={1} alignItems="center">
-                  <IconChartLine size={12} />
-                  <Box>
-                    <Trans i18nKey="near.stake.emptyState.earnRewards" />
+              <ToolTip
+                content={!stakingEnabled ? <Trans i18nKey="near.stake.minSafeWarning" /> : null}
+              >
+                <Button primary small disabled={!stakingEnabled} onClick={onStake}>
+                  <Box horizontal flow={1} alignItems="center">
+                    <IconChartLine size={12} />
+                    <Box>
+                      <Trans i18nKey="near.stake.emptyState.earnRewards" />
+                    </Box>
                   </Box>
-                </Box>
-              </Button>
+                </Button>
+              </ToolTip>
             </Box>
           </Wrapper>
         )}

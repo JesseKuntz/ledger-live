@@ -166,7 +166,7 @@ export const getStakingPositions = async (
         staked,
         available,
         pending,
-        rewards,
+        rewards: rewards.gt(0) ? rewards : new BigNumber(0),
         validatorId,
       };
     })
