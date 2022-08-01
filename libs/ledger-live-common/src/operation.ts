@@ -202,6 +202,9 @@ export function getOperationAmountNumber(op: Operation): BigNumber {
     case "SET_CONTROLLER":
     case "NOMINATE":
     case "CHILL":
+    case "STAKE":
+    case "UNSTAKE":
+    case "WITHDRAW":
       return op.fee.negated();
 
     default:

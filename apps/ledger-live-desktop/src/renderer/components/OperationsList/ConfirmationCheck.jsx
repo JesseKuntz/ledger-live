@@ -122,6 +122,9 @@ const iconsComponent = {
   CHILL: VoteNay,
   REWARD_PAYOUT: ClaimRewards,
   SET_CONTROLLER: IconSend,
+  STAKE: IconDelegate,
+  UNSTAKE: IconUndelegate,
+  WITHDRAW: IconCoins,
 };
 
 class ConfirmationCheck extends PureComponent<{

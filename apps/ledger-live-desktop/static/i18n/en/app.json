@@ -160,7 +160,10 @@
       "WITHDRAW_UNBONDED": "Withdrawal",
       "NOMINATE": "Nomination",
       "CHILL": "Clear nominations",
-      "SET_CONTROLLER": "Set controller"
+      "SET_CONTROLLER": "Set controller",
+      "STAKE": "Staked",
+      "UNSTAKE": "Unstaked",
+      "WITHDRAW": "Withdrawn"
     }
   },
   "byteSize": {
@@ -2911,6 +2914,13 @@
       "stakedBalanceTooltip": "This amount is currently staked with validators.",
       "storageUsageBalance": "Storage usage",
       "storageUsageBalanceTooltip": "This amount is reserved for storage, and is the minimum balance that your account must maintain to remain active."
+    },
+    "operationDetails": {
+      "extra": {
+        "stakedAmount": "Staked amount",
+        "unstakedAmount": "Unstaked amount",
+        "withdrawnAmount": "Withdrawn amount"
+      }
     },
     "stake": {
       "emptyState": {

@@ -19,6 +19,7 @@ export type NearTransaction = {
     {
       data: {
         deposit: string;
+        method_name: string;
       };
     }
   ];

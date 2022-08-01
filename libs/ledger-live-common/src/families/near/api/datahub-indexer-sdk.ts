@@ -4,7 +4,7 @@ import { getEnv } from "../../../env";
 import { encodeOperationId } from "../../../operation";
 import { Account, Operation, OperationType } from "../../../types";
 import { NearTransaction, NearAccount } from "./sdk.types";
-import { getStakingPositions } from "./index";
+import { getStakingPositions, getFunctionCallAmount } from "./index";
 import { getCurrentNearPreloadData } from "../preload";
 import { MIN_ACCOUNT_BALANCE_BUFFER } from "../logic";
 
@@ -91,32 +91,58 @@ function getOperationType(
   transaction: NearTransaction,
   address: string
 ): OperationType {
-  return isSender(transaction, address) ? "OUT" : "IN";
+  switch (transaction.actions[0]?.data?.method_name) {
+    case "deposit_and_stake":
+      return "STAKE";
+    case "unstake":
+      return "UNSTAKE";
+    case "unstake_all":
+      return "UNSTAKE";
+    case "withdraw":
+      return "WITHDRAW";
+    case "withdraw_all":
+      return "WITHDRAW";
+    default:
+      return isSender(transaction, address) ? "OUT" : "IN";
+  }
 }
 
-function getOperationValue(
+async function getOperationValue(
   transaction: NearTransaction,
-  address: string
-): BigNumber {
-  const amount = transaction.actions[0].data.deposit || 0;
+  address: string,
+  type: OperationType
+): Promise<BigNumber> {
+  let amount = transaction.actions[0].data.deposit || 0;
 
-  return isSender(transaction, address)
-    ? new BigNumber(amount).plus(transaction.fee)
-    : new BigNumber(amount);
+  if (["UNSTAKE", "WITHDRAW"].includes(type)) {
+    const functionCallAmount = await getFunctionCallAmount(
+      transaction.hash,
+      address
+    );
+
+    amount = functionCallAmount || 0;
+  }
+
+  if (type === "OUT") {
+    return new BigNumber(amount).plus(transaction.fee);
+  }
+
+  return new BigNumber(amount);
 }
 
-function transactionToOperation(
+async function transactionToOperation(
   accountId: string,
   address: string,
   transaction: NearTransaction
-): Operation {
+): Promise<Operation> {
   const type = getOperationType(transaction, address);
+  const value = await getOperationValue(transaction, address, type);
 
   return {
     id: encodeOperationId(accountId, transaction.hash, type),
     accountId,
     fee: new BigNumber(transaction.fee || 0),
-    value: getOperationValue(transaction, address),
+    value,
     type,
     hash: transaction.hash,
     blockHash: transaction.block_hash,
@@ -135,7 +161,9 @@ export const getOperations = async (
 ): Promise<Operation[]> => {
   const rawTransactions = await fetchTransactions(address);
 
-  return rawTransactions.map((transaction) =>
-    transactionToOperation(accountId, address, transaction)
+  return await Promise.all(
+    rawTransactions.map((transaction) =>
+      transactionToOperation(accountId, address, transaction)
+    )
   );
 };
