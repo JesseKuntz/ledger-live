@@ -92,6 +92,8 @@ const getTransactionStatus = async (
     ? getMaxAmount(a, t, estimatedFees)
     : new BigNumber(t.amount);
 
+  // TODO: if the mode is "stake" and the remaining balance is less than the unstake + withdraw fees, show a warning like in cosmos
+
   if (
     totalSpent.gt(a.spendableBalance) ||
     a.spendableBalance.lt(estimatedFees)

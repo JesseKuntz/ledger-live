@@ -95,6 +95,7 @@ function Body({
       mode: "withdraw",
       recipient: validatorAddress,
       amount: stakingPosition?.available ? stakingPosition.available : new BigNumber(0),
+      useAllAmount: stakingPosition?.available,
     };
 
     const transaction = bridge.updateTransaction(initTx, newTx);

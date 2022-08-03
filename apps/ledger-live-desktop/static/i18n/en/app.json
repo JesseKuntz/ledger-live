@@ -2912,8 +2912,8 @@
     "account": {
       "stakedBalance": "Staked balance",
       "stakedBalanceTooltip": "This amount is currently staked with validators.",
-      "storageUsageBalance": "Storage usage",
-      "storageUsageBalanceTooltip": "This amount is reserved for storage, and is the minimum balance that your account must maintain to remain active."
+      "storageUsageBalance": "Minimum balance",
+      "storageUsageBalanceTooltip": "This amount is reserved for storage and transactions, and is the minimum balance that your account must maintain to remain active."
     },
     "operationDetails": {
       "extra": {

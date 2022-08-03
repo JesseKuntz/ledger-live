@@ -26,7 +26,11 @@ export const prepareTransaction = async (
   const fees = await getEstimatedFees(t);
 
   const amount = t.useAllAmount
-    ? await estimateMaxSpendable({ account: a, calculatedFees: fees })
+    ? await estimateMaxSpendable({
+        account: a,
+        transaction: t,
+        calculatedFees: fees,
+      })
     : t.amount;
 
   return { ...t, fees, amount };

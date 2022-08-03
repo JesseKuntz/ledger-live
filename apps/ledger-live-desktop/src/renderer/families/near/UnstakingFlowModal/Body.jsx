@@ -95,6 +95,7 @@ function Body({
       mode: "unstake",
       recipient: validatorAddress,
       amount: stakingPosition?.staked ? stakingPosition.staked : new BigNumber(0),
+      useAllAmount: stakingPosition?.staked,
     };
 
     const transaction = bridge.updateTransaction(initTx, newTx);

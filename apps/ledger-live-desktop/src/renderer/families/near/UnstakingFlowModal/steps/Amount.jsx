@@ -1,7 +1,7 @@
 // @flow
 import { BigNumber } from "bignumber.js";
 import invariant from "invariant";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { getAccountBridge } from "@ledgerhq/live-common/bridge/index";
 import type { StepProps } from "../types";
@@ -26,6 +26,8 @@ export default function StepAmount({
 }: StepProps) {
   invariant(account && account.nearResources && transaction, "account and transaction required");
 
+  const [staked, setStaked] = useState(transaction.amount);
+
   const bridge = getAccountBridge(account);
 
   const updateValidator = useCallback(
@@ -35,14 +37,16 @@ export default function StepAmount({
           ...tx,
           recipient: address || tx.recipient,
           amount,
+          useAllAmount: amount.eq(staked),
         }),
       );
     },
-    [onUpdateTransaction, bridge],
+    [onUpdateTransaction, bridge, staked],
   );
 
   const onChangeValidator = useCallback(
     ({ validatorId, staked }: NearMappedStakingPosition) => {
+      setStaked(staked);
       updateValidator({ address: validatorId, amount: staked });
     },
     [updateValidator],

@@ -15,6 +15,7 @@ const buildOptimisticOperation = (
   fee: BigNumber
 ): Operation => {
   let type;
+  let value = new BigNumber(transaction.amount);
 
   switch (transaction.mode) {
     case "stake":
@@ -27,10 +28,9 @@ const buildOptimisticOperation = (
       type = "WITHDRAW";
       break;
     default:
+      value = value.plus(fee);
       type = "OUT";
   }
-
-  const value = new BigNumber(transaction.amount).plus(fee);
 
   const operation: Operation = {
     id: encodeOperationId(account.id, "", type),
