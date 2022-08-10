@@ -4042,6 +4042,7 @@
       "nominate": "validator",
       "stake": "validator",
       "unstake": "validator",
+      "withdraw": "validator",
       "erc721": {
         "transfer": "recipient"
       },
