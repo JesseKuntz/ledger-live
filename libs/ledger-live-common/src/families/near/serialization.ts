@@ -2,9 +2,17 @@ import { BigNumber } from "bignumber.js";
 import type { NearResources, NearResourcesRaw } from "./types";
 
 export function toNearResourcesRaw(r: NearResources): NearResourcesRaw {
-  const { stakedBalance, storageUsageBalance, stakingPositions } = r;
+  const {
+    stakedBalance,
+    pendingBalance,
+    availableBalance,
+    storageUsageBalance,
+    stakingPositions,
+  } = r;
   return {
     stakedBalance: stakedBalance.toString(),
+    pendingBalance: pendingBalance.toString(),
+    availableBalance: availableBalance.toString(),
     storageUsageBalance: storageUsageBalance.toString(),
     stakingPositions: stakingPositions.map(
       ({ staked, validatorId, available, pending, rewards }) => ({
@@ -19,9 +27,17 @@ export function toNearResourcesRaw(r: NearResources): NearResourcesRaw {
 }
 
 export function fromNearResourcesRaw(r: NearResourcesRaw): NearResources {
-  const { stakedBalance, storageUsageBalance, stakingPositions = [] } = r;
+  const {
+    stakedBalance,
+    pendingBalance,
+    availableBalance,
+    storageUsageBalance,
+    stakingPositions = [],
+  } = r;
   return {
     stakedBalance: new BigNumber(stakedBalance),
+    pendingBalance: new BigNumber(pendingBalance),
+    availableBalance: new BigNumber(availableBalance),
     storageUsageBalance: new BigNumber(storageUsageBalance),
     stakingPositions: stakingPositions.map(
       ({ staked, validatorId, available, pending, rewards }) => ({

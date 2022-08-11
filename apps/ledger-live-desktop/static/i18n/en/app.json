@@ -2912,6 +2912,10 @@
     "account": {
       "stakedBalance": "Staked balance",
       "stakedBalanceTooltip": "This amount is currently staked with validators.",
+      "availableBalance": "Withdawable balance",
+      "availableBalanceTooltip": "This amount has been unstaked and is currently able to be withdrawn.",
+      "pendingBalance": "Pending balance",
+      "pendingBalanceTooltip": "This amount has been unstaked and is currently pending availability.",
       "storageUsageBalance": "Minimum balance",
       "storageUsageBalanceTooltip": "This amount is reserved for storage and transactions, and is the minimum balance that your account must maintain to remain active."
     },
@@ -2933,7 +2937,7 @@
         "stake": "Add",
         "staked": "Staked",
         "pending": "Pending Release",
-        "available": "Available"
+        "available": "Withdrawable"
       },
       "unstake": "Unstake",
       "withdraw": "Withdraw",

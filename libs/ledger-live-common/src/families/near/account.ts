@@ -11,6 +11,12 @@ function formatAccountSpecifics(account: Account): string {
   str += nearResources.stakedBalance
     ? `\n    Staked Balance: ${nearResources.stakedBalance}`
     : "";
+  str += nearResources.pendingBalance
+    ? `\n    Pending Balance: ${nearResources.pendingBalance}`
+    : "";
+  str += nearResources.availableBalance
+    ? `\n    Withdrawable Balance: ${nearResources.availableBalance}`
+    : "";
   str += nearResources.storageUsageBalance
     ? `\n    Storage Usage Balance: ${nearResources.storageUsageBalance}`
     : "";

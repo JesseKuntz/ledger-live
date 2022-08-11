@@ -37,12 +37,16 @@ export type NearPreloadedData = {
 
 export type NearResources = {
   stakedBalance: BigNumber;
+  availableBalance: BigNumber;
+  pendingBalance: BigNumber;
   storageUsageBalance: BigNumber;
   stakingPositions: NearStakingPosition[];
 };
 
 export type NearResourcesRaw = {
   stakedBalance: string;
+  availableBalance: string;
+  pendingBalance: string;
   storageUsageBalance: string;
   stakingPositions: {
     staked: string;

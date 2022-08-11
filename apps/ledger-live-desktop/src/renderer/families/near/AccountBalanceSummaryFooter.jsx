@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { Trans } from "react-i18next";
 import { getAccountUnit } from "@ledgerhq/live-common/account/index";
 import { formatCurrencyUnit } from "@ledgerhq/live-common/currencies/index";
+import type { Account } from "@ledgerhq/live-common/types/index";
 
 import type { ThemedComponent } from "~/renderer/styles/StyleProvider";
 
@@ -33,11 +34,8 @@ const BalanceDetail = styled(Box).attrs(() => ({
   flex: "0.25 0 auto",
   vertical: true,
   alignItems: "start",
-}))`
-  &:nth-child(n + 3) {
-    flex: 0.75;
-  }
-`;
+  paddingRight: 20,
+}))``;
 
 const TitleWrapper = styled(Box).attrs(() => ({ horizontal: true, alignItems: "center", mb: 1 }))``;
 
@@ -59,7 +57,7 @@ const AmountValue = styled(Text).attrs(() => ({
 `;
 
 type Props = {
-  account: any,
+  account: Account,
   countervalue: any,
 };
 
@@ -69,13 +67,17 @@ const AccountBalanceSummaryFooter = ({ account, countervalue }: Props) => {
 
   const {
     spendableBalance: _spendableBalance,
-    nearResources: { stakedBalance: _stakedBalance, storageUsageBalance: _storageUsageBalance },
+    nearResources: {
+      stakedBalance: _stakedBalance,
+      storageUsageBalance: _storageUsageBalance,
+      availableBalance: _availableBalance,
+      pendingBalance: _pendingBalance,
+    },
   } = account;
 
   const unit = getAccountUnit(account);
 
   const formatConfig = {
-    disableRounding: true,
     alwaysShowSign: false,
     showCode: true,
     discreet,
@@ -85,6 +87,8 @@ const AccountBalanceSummaryFooter = ({ account, countervalue }: Props) => {
   const spendableBalance = formatCurrencyUnit(unit, _spendableBalance, formatConfig);
   const stakedBalance = formatCurrencyUnit(unit, _stakedBalance, formatConfig);
   const storageUsageBalance = formatCurrencyUnit(unit, _storageUsageBalance, formatConfig);
+  const availableBalance = formatCurrencyUnit(unit, _availableBalance, formatConfig);
+  const pendingBalance = formatCurrencyUnit(unit, _pendingBalance, formatConfig);
 
   return (
     <Wrapper>
@@ -124,8 +128,38 @@ const AccountBalanceSummaryFooter = ({ account, countervalue }: Props) => {
               <InfoCircle size={13} />
             </TitleWrapper>
           </ToolTip>
-          <AmountValue paddingRight={30}>
+          <AmountValue>
             <Discreet>{stakedBalance}</Discreet>
+          </AmountValue>
+        </BalanceDetail>
+      )}
+      {_pendingBalance.gt(0) && (
+        <BalanceDetail>
+          <ToolTip content={<Trans i18nKey="near.account.pendingBalanceTooltip" />}>
+            <TitleWrapper>
+              <Title>
+                <Trans i18nKey="near.account.pendingBalance" />
+              </Title>
+              <InfoCircle size={13} />
+            </TitleWrapper>
+          </ToolTip>
+          <AmountValue>
+            <Discreet>{pendingBalance}</Discreet>
+          </AmountValue>
+        </BalanceDetail>
+      )}
+      {_availableBalance.gt(0) && (
+        <BalanceDetail>
+          <ToolTip content={<Trans i18nKey="near.account.availableBalanceTooltip" />}>
+            <TitleWrapper>
+              <Title>
+                <Trans i18nKey="near.account.availableBalance" />
+              </Title>
+              <InfoCircle size={13} />
+            </TitleWrapper>
+          </ToolTip>
+          <AmountValue>
+            <Discreet>{availableBalance}</Discreet>
           </AmountValue>
         </BalanceDetail>
       )}

@@ -77,6 +77,8 @@ export const getAccount = async (
     spendableBalance,
     nearResources: {
       stakedBalance: totalStaked,
+      availableBalance: totalAvailable,
+      pendingBalance: totalPending,
       storageUsageBalance: storageUsage.plus(minBalanceBuffer),
       stakingPositions,
     },
