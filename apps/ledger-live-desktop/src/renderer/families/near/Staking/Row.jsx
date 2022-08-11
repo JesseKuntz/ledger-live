@@ -131,6 +131,10 @@ export function Row({
     validatorId,
   ]);
 
+  if (!unstakingEnabled && !withdawingEnabled && stakingPosition.pending.eq(0)) {
+    return null;
+  }
+
   return (
     <Wrapper>
       <Column strong clickable onClick={onExternalLinkClick}>
