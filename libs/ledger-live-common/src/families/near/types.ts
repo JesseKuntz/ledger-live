@@ -75,3 +75,9 @@ export type NearMappedStakingPosition = NearStakingPosition & {
   rank: number;
   validator: NearValidatorItem | null | undefined;
 };
+
+export type StatusErrorMap = {
+  recipient?: Error;
+  amount?: Error;
+  fees?: Error;
+};

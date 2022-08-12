@@ -27,3 +27,38 @@ export const NearActivationFeeNotCovered = createCustomErrorClass(
 export const NearProtocolConfigNotLoaded = createCustomErrorClass(
   "NearProtocolConfigNotLoaded"
 );
+
+/*
+ * When an entire account balance is being staked.
+ */
+export const NearUseAllAmountStakeWarning = createCustomErrorClass(
+  "NearUseAllAmountStakeWarning"
+);
+
+/*
+ * When trying to unstake more than is staked.
+ */
+export const NearNotEnoughStaked = createCustomErrorClass(
+  "NearNotEnoughStaked"
+);
+
+/*
+ * When trying to withdraw more than is available.
+ */
+export const NearNotEnoughAvailable = createCustomErrorClass(
+  "NearNotEnoughAvailable"
+);
+
+/*
+ * When sending max while there are existing staking positions.
+ */
+export const NearRecommendUnstake = createCustomErrorClass(
+  "NearRecommendUnstake"
+);
+
+/*
+ * When trying to stake, unstake, or withdraw less than the threshold.
+ */
+export const NearStakingThresholdNotMet = createCustomErrorClass(
+  "NearStakingThresholdNotMet"
+);

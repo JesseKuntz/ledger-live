@@ -4775,6 +4775,21 @@
     },
     "StellarSourceHasMultiSign": {
       "title": "Please disable multisign to make Stellar transactions"
+    },
+    "NearUseAllAmountStakeWarning": {
+      "title": "Ensure you have enough balance left for future transaction fees"
+    },
+    "NearNotEnoughStaked": {
+      "title": "Insuffient staked balance"
+    },
+    "NearNotEnoughAvailable": {
+      "title": "Insufficient withdrawable balance"
+    },
+    "NearRecommendUnstake": {
+      "title": "Please unstake and withdraw funds before emptying the account"
+    },
+    "NearStakingThresholdNotMet": {
+      "title": "Amount needs to be at least {{threshold}}"
     }
   },
   "cryptoOrg": {

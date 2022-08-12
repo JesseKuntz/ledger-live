@@ -1,4 +1,5 @@
 import * as nearAPI from "near-api-js";
+import { BigNumber } from "bignumber.js";
 import network from "../../../network";
 import { getEnv } from "../../../env";
 import { getStakingDeposits } from "./index";
@@ -8,7 +9,7 @@ import {
   NearStakingPosition,
   NearRawValidator,
 } from "./sdk.types";
-import BigNumber from "bignumber.js";
+import { getYoctoThreshold, canUnstake, canWithdraw } from "../logic";
 
 export const getProtocolConfig = async (): Promise<NearProtocolConfig> => {
   const { data } = await network({
@@ -158,9 +159,17 @@ export const getStakingPositions = async (
       pending = new BigNumber(pending);
       rewards = new BigNumber(rawTotal).minus(deposit);
 
-      totalStaked = totalStaked.plus(staked);
-      totalAvailable = totalAvailable.plus(available);
-      totalPending = totalPending.plus(pending);
+      const stakingThreshold = await getYoctoThreshold();
+
+      if (staked.gt(stakingThreshold)) {
+        totalStaked = totalStaked.plus(staked);
+      }
+      if (available.gt(stakingThreshold)) {
+        totalAvailable = totalAvailable.plus(available);
+      }
+      if (pending.gt(stakingThreshold)) {
+        totalPending = totalPending.plus(pending);
+      }
 
       return {
         staked,
@@ -172,7 +181,14 @@ export const getStakingPositions = async (
     })
   );
 
-  return { stakingPositions, totalStaked, totalAvailable, totalPending };
+  return {
+    stakingPositions: stakingPositions.filter(
+      (sp) => canUnstake(sp) || canWithdraw(sp) || sp.pending.gt(0)
+    ),
+    totalStaked,
+    totalAvailable,
+    totalPending,
+  };
 };
 
 export const getValidators = async (): Promise<NearRawValidator[]> => {

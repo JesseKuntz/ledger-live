@@ -132,13 +132,13 @@ export const canStake = (a: Account): boolean => {
 };
 
 export const canUnstake = (
-  stakingPosition: NearMappedStakingPosition
+  stakingPosition: NearMappedStakingPosition | NearStakingPosition
 ): boolean => {
   return stakingPosition.staked.gt(getYoctoThreshold());
 };
 
 export const canWithdraw = (
-  stakingPosition: NearMappedStakingPosition
+  stakingPosition: NearMappedStakingPosition | NearStakingPosition
 ): boolean => {
   return stakingPosition.available.gt(getYoctoThreshold());
 };
