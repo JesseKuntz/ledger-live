@@ -231,4 +231,6 @@ export const urls = {
     supportArticleLink:
       "https://support.ledger.com/hc/en-us/articles/4494505217565-Create-a-Ledger-Hedera-HBAR-account-via-HashPack?docs=true",
   },
+  ledgerByFigmentTC:
+    "https://cdn.figment.io/legal/Current%20Ledger_Online%20Staking%20Delgation%20Services%20Agreement.pdf",
 };

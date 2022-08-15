@@ -11,8 +11,8 @@ import Button from "~/renderer/components/Button";
 import type { AccountBridge, Transaction } from "@ledgerhq/live-common/types/index";
 
 import ValidatorField from "../fields/ValidatorField";
+import LedgerByFigmentTCLink from "../components/LedgerByFigmentTCLink";
 import ErrorBanner from "~/renderer/components/ErrorBanner";
-import AccountFooter from "~/renderer/modals/Send/AccountFooter";
 
 export default function StepStake({
   account,
@@ -62,7 +62,7 @@ export function StepStakeFooter({
 
   return (
     <>
-      <AccountFooter parentAccount={parentAccount} account={account} status={status} />
+      <LedgerByFigmentTCLink transaction={transaction} />
       <Box horizontal>
         <Button mr={1} secondary onClick={onClose}>
           <Trans i18nKey="common.cancel" />
