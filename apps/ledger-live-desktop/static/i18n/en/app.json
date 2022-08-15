@@ -2917,7 +2917,16 @@
       "pendingBalance": "Pending balance",
       "pendingBalanceTooltip": "This amount has been unstaked and is currently pending availability.",
       "storageUsageBalance": "Minimum balance",
-      "storageUsageBalanceTooltip": "This amount is reserved for storage and transactions, and is the minimum balance that your account must maintain to remain active."
+      "storageUsageBalanceTooltip": "This amount is reserved for storage and transactions, and is the minimum balance that your account must maintain to remain active.",
+      "subHeader": {
+        "cardTitle": "Powered by Figment",
+        "moreInfo": "More info",
+        "drawerTitle": "Powered by Figment",
+        "title": "The NEAR token is now available on Ledger Live",
+        "description": "You can now start to manage your NEAR tokens and secure them through Ledger Live.",
+        "description2": "The NEAR token is native to the NEAR chain and is used for everything from transactions, staking and many upcoming features.",
+        "website": "Powered by Figment"
+      }
     },
     "operationDetails": {
       "extra": {
