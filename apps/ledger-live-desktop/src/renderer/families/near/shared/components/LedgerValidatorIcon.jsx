@@ -8,13 +8,21 @@ import LedgerLiveLogo from "~/renderer/components/LedgerLiveLogo";
 import Logo from "~/renderer/icons/Logo";
 import FirstLetterIcon from "~/renderer/components/FirstLetterIcon";
 
-const LedgerValidatorIcon = ({ validator }: { validator: NearValidatorItem }) => {
+const LedgerValidatorIcon = ({
+  validator,
+  validatorId,
+}: {
+  validator: NearValidatorItem,
+  validatorId: string,
+}) => {
+  const address = (validator && validator.validatorAddress) || validatorId;
+
   return (
     <IconContainer isSR>
-      {validator && validator.validatorAddress === FIGMENT_NEAR_VALIDATOR_ADDRESS ? (
+      {address === FIGMENT_NEAR_VALIDATOR_ADDRESS ? (
         <LedgerLiveLogo width={24} height={24} icon={<Logo size={15} />} />
       ) : (
-        <FirstLetterIcon label={validator.validatorAddress} />
+        <FirstLetterIcon label={address} />
       )}
     </IconContainer>
   );

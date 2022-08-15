@@ -135,7 +135,7 @@ export function Row({
     <Wrapper>
       <Column strong clickable onClick={onExternalLinkClick}>
         <Box mr={2}>
-          <LedgerValidatorIcon validator={validator} />
+          <LedgerValidatorIcon validator={validator} validatorId={validatorId} />
         </Box>
         <Ellipsis>{validatorId}</Ellipsis>
       </Column>
