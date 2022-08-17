@@ -143,13 +143,11 @@ const getSendTransactionStatus = async (
         recipientIsNewAccount = true;
 
         if (isImplicitAccount(t.recipient)) {
-          warnings.recipient = new NearNewAccountWarning(
-            `The recipient account is not created yet. The protocol requires a ${formattedNewAccountStorageCost} transfer to create it.`
-          );
+          warnings.recipient = new NearNewAccountWarning(undefined, {
+            formattedNewAccountStorageCost,
+          });
         } else {
-          errors.recipient = new NearNewNamedAccountError(
-            "The recipient account is not created yet. It needs to be created in the NEAR wallet."
-          );
+          errors.recipient = new NearNewNamedAccountError();
         }
       }
     }
@@ -179,9 +177,9 @@ const getSendTransactionStatus = async (
   } else if (amount.lte(0) && !t.useAllAmount) {
     errors.amount = new AmountRequired();
   } else if (recipientIsNewAccount && amount.lt(newAccountStorageCost)) {
-    errors.amount = new NearActivationFeeNotCovered(
-      `This amount doesn't cover the ${formattedNewAccountStorageCost} storage cost.`
-    );
+    errors.amount = new NearActivationFeeNotCovered(undefined, {
+      formattedNewAccountStorageCost,
+    });
   }
 
   if (

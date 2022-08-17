@@ -4786,6 +4786,15 @@
     "StellarSourceHasMultiSign": {
       "title": "Please disable multisign to make Stellar transactions"
     },
+    "NearNewAccountWarning": {
+      "title": "The recipient account is not created yet. The protocol requires a {{formattedNewAccountStorageCost}} transfer to create it."
+    },
+    "NearNewNamedAccountError": {
+      "title": "The recipient account is not created yet. It needs to be created in the NEAR wallet."
+    },
+    "NearActivationFeeNotCovered": {
+      "title": "This amount doesn't cover the {{formattedNewAccountStorageCost}} storage cost."
+    },
     "NearUseAllAmountStakeWarning": {
       "title": "Ensure you have enough balance left for future transaction fees"
     },
