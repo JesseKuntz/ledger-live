@@ -186,7 +186,8 @@ const getSendTransactionStatus = async (
 
   if (
     a.nearResources?.stakingPositions &&
-    a.nearResources.stakingPositions.length > 0
+    a.nearResources.stakingPositions.length > 0 &&
+    useAllAmount
   ) {
     warnings.amount = new NearRecommendUnstake();
   }

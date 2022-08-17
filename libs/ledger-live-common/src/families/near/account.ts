@@ -8,6 +8,7 @@ function formatAccountSpecifics(account: Account): string {
 
   let str = " ";
 
+  str += account.balance ? `\n    Full Balance: ${account.balance}` : "";
   str += nearResources.stakedBalance
     ? `\n    Staked Balance: ${nearResources.stakedBalance}`
     : "";
