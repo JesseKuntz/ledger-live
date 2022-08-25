@@ -6,8 +6,10 @@ import type { AppSpec } from "../../bot/types";
 import { DeviceModelId } from "@ledgerhq/devices";
 
 const currency = getCryptoCurrencyById("near");
-const minimalAmount = parseCurrencyUnit(currency.units[0], "0.00001");
+const minimalAmount = parseCurrencyUnit(currency.units[0], "0.0001");
+const stakingFee = parseCurrencyUnit(currency.units[0], "0.002");
 const maxAccount = 3;
+const validator = "ledgerbyfigment.poolv1.near";
 
 const near: AppSpec<Transaction> = {
   name: "NEAR",
@@ -20,7 +22,7 @@ const near: AppSpec<Transaction> = {
   mutations: [
     {
       name: "Move 50% to another account",
-      maxRun: 2,
+      maxRun: 1,
       transaction: ({ account, siblings, bridge, maxSpendable }) => {
         invariant(maxSpendable.gt(minimalAmount), "balance is too low");
         const sibling = pickSiblings(siblings, maxAccount);
@@ -42,6 +44,23 @@ const near: AppSpec<Transaction> = {
         return {
           transaction: bridge.createTransaction(account),
           updates: [{ recipient }, { useAllAmount: true }],
+        };
+      },
+    },
+    {
+      name: "Stake",
+      maxRun: 1,
+      transaction: ({ account, bridge, maxSpendable }) => {
+        invariant(
+          maxSpendable.gt(minimalAmount.plus(stakingFee)),
+          "balance is too low"
+        );
+
+        const amount = minimalAmount.times(Math.random()).integerValue();
+
+        return {
+          transaction: bridge.createTransaction(account),
+          updates: [{ mode: "stake", recipient: validator }, { amount }],
         };
       },
     },

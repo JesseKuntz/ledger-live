@@ -9,6 +9,10 @@ const acceptTransaction: DeviceAction<Transaction, any> = deviceActionFlow({
       button: "Rr",
     },
     {
+      title: "Deposit",
+      button: "Rr",
+    },
+    {
       title: "Amount",
       button: "Rr",
     },
@@ -18,6 +22,10 @@ const acceptTransaction: DeviceAction<Transaction, any> = deviceActionFlow({
     },
     {
       title: "From",
+      button: "Rr",
+    },
+    {
+      title: "Args",
       button: "Rr",
     },
     {
