@@ -1,9 +1,7 @@
+export { getOperations } from "./datahub-indexer-sdk";
 export {
   getAccount,
-  getOperations,
   fetchAccountDetails,
-} from "./datahub-indexer-sdk";
-export {
   getProtocolConfig,
   getGasPrice,
   getAccessKey,

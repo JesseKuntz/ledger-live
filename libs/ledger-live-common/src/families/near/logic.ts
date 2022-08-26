@@ -58,15 +58,29 @@ export const getMaxAmount = (
     ({ validatorId }) => validatorId === t.recipient
   );
 
+  let pendingUnstakingAmount = new BigNumber(0);
+  let pendingWithdrawingAmount = new BigNumber(0);
+  let pendingDefaultAmount = new BigNumber(0);
+
+  a.pendingOperations.forEach(({ type, value }) => {
+    if (type === "UNSTAKE") {
+      pendingUnstakingAmount = pendingUnstakingAmount.plus(value);
+    } else if (type === "WITHDRAW") {
+      pendingWithdrawingAmount = pendingWithdrawingAmount.plus(value);
+    } else {
+      pendingDefaultAmount = pendingDefaultAmount.plus(value);
+    }
+  });
+
   switch (t.mode) {
     case "unstake":
-      maxAmount = selectedValidator?.staked;
+      maxAmount = selectedValidator?.staked.minus(pendingUnstakingAmount);
       break;
     case "withdraw":
-      maxAmount = selectedValidator?.available;
+      maxAmount = selectedValidator?.available.minus(pendingWithdrawingAmount);
       break;
     default:
-      maxAmount = a.spendableBalance.minus(fees);
+      maxAmount = a.spendableBalance.minus(fees).minus(pendingDefaultAmount);
   }
 
   return maxAmount;

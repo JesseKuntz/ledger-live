@@ -2,14 +2,91 @@ import * as nearAPI from "near-api-js";
 import { BigNumber } from "bignumber.js";
 import network from "../../../network";
 import { getEnv } from "../../../env";
+import { Account } from "../../../types";
 import { getStakingDeposits } from "./index";
 import {
   NearAccessKey,
   NearProtocolConfig,
   NearStakingPosition,
   NearRawValidator,
+  NearAccount,
 } from "./sdk.types";
-import { getYoctoThreshold, canUnstake, canWithdraw } from "../logic";
+import { getCurrentNearPreloadData } from "../preload";
+import {
+  getYoctoThreshold,
+  canUnstake,
+  canWithdraw,
+  MIN_ACCOUNT_BALANCE_BUFFER,
+} from "../logic";
+
+export const fetchAccountDetails = async (
+  address: string
+): Promise<NearAccount> => {
+  const { data } = await network({
+    method: "POST",
+    url: getEnv("API_NEAR_ARCHIVE_NODE"),
+    data: {
+      jsonrpc: "2.0",
+      id: "id",
+      method: "query",
+      params: {
+        request_type: "view_account",
+        finality: "final",
+        account_id: address,
+      },
+    },
+  });
+
+  return data.result;
+};
+
+export const getAccount = async (
+  address: string
+): Promise<Partial<Account>> => {
+  let accountDetails: NearAccount;
+
+  try {
+    accountDetails = await fetchAccountDetails(address);
+  } catch (e: any) {
+    if (e.status === 404) {
+      accountDetails = {
+        amount: "0",
+        block_height: 0,
+        storage_usage: 0,
+      };
+    } else {
+      throw e;
+    }
+  }
+
+  const { stakingPositions, totalStaked, totalAvailable, totalPending } =
+    await getStakingPositions(address);
+
+  const { storageCost } = getCurrentNearPreloadData();
+
+  const balance = new BigNumber(accountDetails.amount);
+  const storageUsage = storageCost.multipliedBy(accountDetails.storage_usage);
+  const minBalanceBuffer = new BigNumber(MIN_ACCOUNT_BALANCE_BUFFER);
+
+  let spendableBalance = balance.minus(storageUsage).minus(minBalanceBuffer);
+
+  if (spendableBalance.lt(0)) {
+    spendableBalance = new BigNumber(0);
+  }
+
+  return {
+    blockHeight: accountDetails.block_height,
+    balance: balance.plus(totalStaked).plus(totalAvailable).plus(totalPending),
+    spendableBalance,
+    nearResources: {
+      stakedBalance: totalStaked,
+      availableBalance: totalAvailable,
+      pendingBalance: totalPending,
+      storageUsageBalance: storageUsage.plus(minBalanceBuffer),
+      stakingPositions,
+    },
+  };
+};
 
 export const getProtocolConfig = async (): Promise<NearProtocolConfig> => {
   const { data } = await network({
