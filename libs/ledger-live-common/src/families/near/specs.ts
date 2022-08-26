@@ -93,6 +93,32 @@ const near: AppSpec<Transaction> = {
         };
       },
     },
+    {
+      name: "Withdraw",
+      maxRun: 1,
+      transaction: ({ account, bridge, maxSpendable }) => {
+        invariant(maxSpendable.gt(stakingFee), "balance is too low for fees");
+
+        const available =
+          account.nearResources?.availableBalance || new BigNumber(0);
+
+        invariant(
+          available.gt(minimalAmount),
+          "available balance is too low for withdrawing"
+        );
+
+        const halfAvailable = available.div(2);
+
+        const amount = halfAvailable.gt(minimalAmount)
+          ? halfAvailable.integerValue()
+          : available.integerValue();
+
+        return {
+          transaction: bridge.createTransaction(account),
+          updates: [{ mode: "withdraw", recipient: validator }, { amount }],
+        };
+      },
+    },
   ],
 };
 
