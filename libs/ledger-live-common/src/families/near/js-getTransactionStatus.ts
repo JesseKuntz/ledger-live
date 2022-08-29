@@ -136,19 +136,17 @@ const getSendTransactionStatus = async (
   } else if (!isValidAddress(t.recipient)) {
     errors.recipient = new InvalidAddress();
   } else {
-    try {
-      await fetchAccountDetails(t.recipient);
-    } catch (e: any) {
-      if (e.status === 404) {
-        recipientIsNewAccount = true;
+    const accountDetails = await fetchAccountDetails(t.recipient);
 
-        if (isImplicitAccount(t.recipient)) {
-          warnings.recipient = new NearNewAccountWarning(undefined, {
-            formattedNewAccountStorageCost,
-          });
-        } else {
-          errors.recipient = new NearNewNamedAccountError();
-        }
+    if (!accountDetails) {
+      recipientIsNewAccount = true;
+
+      if (isImplicitAccount(t.recipient)) {
+        warnings.recipient = new NearNewAccountWarning(undefined, {
+          formattedNewAccountStorageCost,
+        });
+      } else {
+        errors.recipient = new NearNewNamedAccountError();
       }
     }
   }

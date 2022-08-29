@@ -45,18 +45,14 @@ export const getAccount = async (
 ): Promise<Partial<Account>> => {
   let accountDetails: NearAccount;
 
-  try {
-    accountDetails = await fetchAccountDetails(address);
-  } catch (e: any) {
-    if (e.status === 404) {
-      accountDetails = {
-        amount: "0",
-        block_height: 0,
-        storage_usage: 0,
-      };
-    } else {
-      throw e;
-    }
+  accountDetails = await fetchAccountDetails(address);
+
+  if (!accountDetails) {
+    accountDetails = {
+      amount: "0",
+      block_height: 0,
+      storage_usage: 0,
+    };
   }
 
   const { stakingPositions, totalStaked, totalAvailable, totalPending } =

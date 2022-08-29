@@ -2,11 +2,9 @@ import { BigNumber } from "bignumber.js";
 import network from "../../../network";
 import { getEnv } from "../../../env";
 import { encodeOperationId } from "../../../operation";
-import { Account, Operation, OperationType } from "../../../types";
+import { Operation, OperationType } from "../../../types";
 import { NearTransaction, NearAccount } from "./sdk.types";
-import { getStakingPositions, getFunctionCallAmount } from "./index";
-import { getCurrentNearPreloadData } from "../preload";
-import { MIN_ACCOUNT_BALANCE_BUFFER } from "../logic";
+import { getFunctionCallAmount } from "./index";
 
 const DEFAULT_TRANSACTIONS_LIMIT = 100;
 const getIndexerUrl = (route: string): string =>
@@ -35,54 +33,6 @@ const fetchTransactions = async (
   });
 
   return data?.records || [];
-};
-
-export const getAccount = async (
-  address: string
-): Promise<Partial<Account>> => {
-  let accountDetails: NearAccount;
-
-  try {
-    accountDetails = await fetchAccountDetails(address);
-  } catch (e: any) {
-    if (e.status === 404) {
-      accountDetails = {
-        amount: "0",
-        block_height: 0,
-        storage_usage: 0,
-      };
-    } else {
-      throw e;
-    }
-  }
-
-  const { stakingPositions, totalStaked, totalAvailable, totalPending } =
-    await getStakingPositions(address);
-
-  const { storageCost } = getCurrentNearPreloadData();
-
-  const balance = new BigNumber(accountDetails.amount);
-  const storageUsage = storageCost.multipliedBy(accountDetails.storage_usage);
-  const minBalanceBuffer = new BigNumber(MIN_ACCOUNT_BALANCE_BUFFER);
-
-  let spendableBalance = balance.minus(storageUsage).minus(minBalanceBuffer);
-
-  if (spendableBalance.lt(0)) {
-    spendableBalance = new BigNumber(0);
-  }
-
-  return {
-    blockHeight: accountDetails.block_height,
-    balance: balance.plus(totalStaked).plus(totalAvailable).plus(totalPending),
-    spendableBalance,
-    nearResources: {
-      stakedBalance: totalStaked,
-      availableBalance: totalAvailable,
-      pendingBalance: totalPending,
-      storageUsageBalance: storageUsage.plus(minBalanceBuffer),
-      stakingPositions,
-    },
-  };
 };
 
 function isSender(transaction: NearTransaction, address: string): boolean {
