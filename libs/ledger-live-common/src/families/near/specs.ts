@@ -5,6 +5,7 @@ import { getCryptoCurrencyById, parseCurrencyUnit } from "../../currencies";
 import { pickSiblings } from "../../bot/specs";
 import type { AppSpec } from "../../bot/types";
 import { DeviceModelId } from "@ledgerhq/devices";
+import { acceptTransaction } from "./speculos-deviceActions";
 
 const currency = getCryptoCurrencyById("near");
 const minimalAmount = parseCurrencyUnit(currency.units[0], "0.00001");
@@ -19,6 +20,7 @@ const near: AppSpec<Transaction> = {
     model: DeviceModelId.nanoS,
     appName: "NEAR",
   },
+  genericDeviceAction: acceptTransaction,
   testTimeout: 2 * 60 * 1000,
   mutations: [
     {
