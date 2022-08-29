@@ -4,10 +4,8 @@ import cosmos from "../families/cosmos/account";
 import crypto_org from "../families/crypto_org/account";
 import elrond from "../families/elrond/account";
 import filecoin from "../families/filecoin/account";
-import osmosis from "../families/osmosis/account";
-
 import near from "../families/near/account";
-
+import osmosis from "../families/osmosis/account";
 import polkadot from "../families/polkadot/account";
 
 export default {
@@ -17,7 +15,7 @@ export default {
   crypto_org,
   elrond,
   filecoin,
-  osmosis,
   near,
+  osmosis,
   polkadot,
 };

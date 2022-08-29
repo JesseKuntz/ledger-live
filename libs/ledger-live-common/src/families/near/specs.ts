@@ -1,6 +1,6 @@
 import invariant from "invariant";
 import { BigNumber } from "bignumber.js";
-import type { Transaction } from "./types";
+import type { Transaction, NearAccount } from "./types";
 import { getCryptoCurrencyById, parseCurrencyUnit } from "../../currencies";
 import { pickSiblings } from "../../bot/specs";
 import type { AppSpec } from "../../bot/types";
@@ -74,7 +74,9 @@ const near: AppSpec<Transaction> = {
       transaction: ({ account, bridge, maxSpendable }) => {
         invariant(maxSpendable.gt(stakingFee), "balance is too low for fees");
 
-        const staked = account.nearResources?.stakedBalance || new BigNumber(0);
+        const { nearResources } = account as NearAccount;
+
+        const staked = nearResources?.stakedBalance || new BigNumber(0);
 
         invariant(
           staked.gt(minimalAmount),
@@ -99,8 +101,9 @@ const near: AppSpec<Transaction> = {
       transaction: ({ account, bridge, maxSpendable }) => {
         invariant(maxSpendable.gt(stakingFee), "balance is too low for fees");
 
-        const available =
-          account.nearResources?.availableBalance || new BigNumber(0);
+        const { nearResources } = account as NearAccount;
+
+        const available = nearResources?.availableBalance || new BigNumber(0);
 
         invariant(
           available.gt(minimalAmount),

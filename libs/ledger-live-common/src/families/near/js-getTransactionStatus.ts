@@ -7,9 +7,13 @@ import {
   AmountRequired,
   InvalidAddressBecauseDestinationIsAlsoSource,
 } from "@ledgerhq/errors";
-import type { Account, TransactionStatus } from "../../types";
 import { formatCurrencyUnit, getCryptoCurrencyById } from "../../currencies";
-import type { Transaction, StatusErrorMap } from "./types";
+import type {
+  Transaction,
+  StatusErrorMap,
+  NearAccount,
+  TransactionStatus,
+} from "./types";
 import {
   isValidAddress,
   NEW_ACCOUNT_SIZE,
@@ -32,7 +36,7 @@ import {
 } from "./errors";
 
 const getTransactionStatus = async (
-  a: Account,
+  a: NearAccount,
   t: Transaction
 ): Promise<TransactionStatus> => {
   if (t.mode === "send") {
@@ -111,7 +115,7 @@ const getTransactionStatus = async (
 };
 
 const getSendTransactionStatus = async (
-  a: Account,
+  a: NearAccount,
   t: Transaction
 ): Promise<TransactionStatus> => {
   const errors: StatusErrorMap = {};

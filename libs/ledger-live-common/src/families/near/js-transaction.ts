@@ -1,6 +1,6 @@
 import { $Shape } from "utility-types";
 import { BigNumber } from "bignumber.js";
-import type { Account } from "../../types";
+import type { Account } from "@ledgerhq/types-live";
 import type { Transaction } from "./types";
 import getEstimatedFees from "./js-getFeesForTransaction";
 import estimateMaxSpendable from "./js-estimateMaxSpendable";

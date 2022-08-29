@@ -1,6 +1,6 @@
-import type { Account } from "../../types";
+import type { NearAccount } from "./types";
 
-function formatAccountSpecifics(account: Account): string {
+function formatAccountSpecifics(account: NearAccount): string {
   const { nearResources } = account;
   if (!nearResources) {
     throw new Error("near account expected");

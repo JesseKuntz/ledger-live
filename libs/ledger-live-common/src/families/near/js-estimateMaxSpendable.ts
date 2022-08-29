@@ -1,6 +1,6 @@
 import { BigNumber } from "bignumber.js";
-import type { AccountLike, Account } from "../../types";
-import type { Transaction } from "./types";
+import type { AccountLike, Account } from "@ledgerhq/types-live";
+import type { Transaction, NearAccount } from "./types";
 import { getMainAccount } from "../../account";
 import { getMaxAmount } from "./logic";
 import { createTransaction } from "./js-transaction";
@@ -17,7 +17,7 @@ const estimateMaxSpendable = async ({
   transaction?: Transaction | null;
   calculatedFees?: BigNumber;
 }): Promise<BigNumber> => {
-  const a = getMainAccount(account, parentAccount);
+  const a = getMainAccount(account, parentAccount) as NearAccount;
   const t = {
     ...createTransaction(),
     ...transaction,

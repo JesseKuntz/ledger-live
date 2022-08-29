@@ -52,6 +52,7 @@ import { PolkadotAccount, PolkadotAccountRaw } from "./families/polkadot/types";
 import { SolanaAccount, SolanaAccountRaw } from "./families/solana/types";
 import { TezosAccount, TezosAccountRaw } from "./families/tezos/types";
 import { TronAccount, TronAccountRaw } from "./families/tron/types";
+import { NearAccount, NearAccountRaw } from "./families/near/types";
 
 // aim to build operations with the minimal diff & call to coin implementation possible
 export async function minimalOperationsBuilder<CO>(
@@ -491,15 +492,21 @@ export function patchAccount(
       }
       break;
     }
-  }
+    case "near": {
+      const nearAcc = account as NearAccount;
+      const nearUpdatedRaw = updatedRaw as NearAccountRaw;
 
-  if (
-    updatedRaw.nearResources &&
-    // @ts-expect-error types don't overlap ¯\_(ツ)_/¯
-    account.nearResources !== updatedRaw.nearResources
-  ) {
-    next.nearResources = fromNearResourcesRaw(updatedRaw.nearResources);
-    changed = true;
+      if (
+        nearUpdatedRaw.nearResources &&
+        !areSameResources(nearAcc.nearResources, nearUpdatedRaw.nearResources)
+      ) {
+        (next as NearAccount).nearResources = fromNearResourcesRaw(
+          nearUpdatedRaw.nearResources
+        );
+        changed = true;
+      }
+      break;
+    }
   }
 
   const nfts = updatedRaw?.nfts?.map(fromNFTRaw);

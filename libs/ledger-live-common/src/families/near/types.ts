@@ -4,6 +4,8 @@ import {
   AccountRaw,
   TransactionCommon,
   TransactionCommonRaw,
+  TransactionStatusCommon,
+  TransactionStatusCommonRaw,
 } from "@ledgerhq/types-live";
 import type { NearStakingPosition } from "./api/sdk.types";
 
@@ -81,3 +83,7 @@ export type StatusErrorMap = {
   amount?: Error;
   fees?: Error;
 };
+
+export type TransactionStatus = TransactionStatusCommon;
+
+export type TransactionStatusRaw = TransactionStatusCommonRaw;

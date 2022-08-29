@@ -2,14 +2,14 @@ import * as nearAPI from "near-api-js";
 import { BigNumber } from "bignumber.js";
 import network from "../../../network";
 import { getEnv } from "../../../env";
-import { Account } from "../../../types";
+import { NearAccount } from "../types";
 import { getStakingDeposits } from "./index";
 import {
   NearAccessKey,
   NearProtocolConfig,
   NearStakingPosition,
   NearRawValidator,
-  NearAccount,
+  NearAccountDetails,
 } from "./sdk.types";
 import { getCurrentNearPreloadData } from "../preload";
 import {
@@ -21,7 +21,7 @@ import {
 
 export const fetchAccountDetails = async (
   address: string
-): Promise<NearAccount> => {
+): Promise<NearAccountDetails> => {
   const { data } = await network({
     method: "POST",
     url: getEnv("API_NEAR_ARCHIVE_NODE"),
@@ -42,8 +42,8 @@ export const fetchAccountDetails = async (
 
 export const getAccount = async (
   address: string
-): Promise<Partial<Account>> => {
-  let accountDetails: NearAccount;
+): Promise<Partial<NearAccount>> => {
+  let accountDetails: NearAccountDetails;
 
   accountDetails = await fetchAccountDetails(address);
 

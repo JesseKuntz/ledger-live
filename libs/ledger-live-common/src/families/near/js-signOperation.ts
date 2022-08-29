@@ -3,7 +3,11 @@ import { BigNumber } from "bignumber.js";
 import { Observable } from "rxjs";
 import { FeeNotLoaded } from "@ledgerhq/errors";
 import type { Transaction } from "./types";
-import type { Account, Operation, SignOperationEvent } from "../../types";
+import type {
+  Operation,
+  SignOperationEvent,
+  Account,
+} from "@ledgerhq/types-live";
 import { open, close } from "../../hw";
 import { encodeOperationId } from "../../operation";
 import Near from "./hw-app-near";

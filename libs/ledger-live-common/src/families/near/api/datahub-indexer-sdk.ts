@@ -2,24 +2,13 @@ import { BigNumber } from "bignumber.js";
 import network from "../../../network";
 import { getEnv } from "../../../env";
 import { encodeOperationId } from "../../../operation";
-import { Operation, OperationType } from "../../../types";
-import { NearTransaction, NearAccount } from "./sdk.types";
+import { Operation, OperationType } from "@ledgerhq/types-live";
+import { NearTransaction } from "./sdk.types";
 import { getFunctionCallAmount } from "./index";
 
 const DEFAULT_TRANSACTIONS_LIMIT = 100;
 const getIndexerUrl = (route: string): string =>
   `${getEnv("API_NEAR_INDEXER")}${route || ""}`;
-
-export const fetchAccountDetails = async (
-  address: string
-): Promise<NearAccount> => {
-  const { data } = await network({
-    method: "GET",
-    url: getIndexerUrl(`/accounts/${address}`),
-  });
-
-  return data;
-};
 
 const fetchTransactions = async (
   address: string,

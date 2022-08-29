@@ -1,6 +1,6 @@
 import type { BigNumber } from "bignumber.js";
 
-export type NearAccount = {
+export type NearAccountDetails = {
   amount: string;
   storage_usage: number;
   block_height: number;

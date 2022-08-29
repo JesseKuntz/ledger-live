@@ -6,13 +6,13 @@ import {
   NearValidatorItem,
   Transaction,
   NearMappedStakingPosition,
+  NearAccount,
 } from "./types";
 import { getCurrentNearPreloadData } from "./preload";
-import type { Account } from "../../types";
 import { getAccountUnit } from "../../account";
 
 export function useNearMappedStakingPositions(
-  account: Account
+  account: NearAccount
 ): NearMappedStakingPosition[] {
   const { validators } = getCurrentNearPreloadData();
   const stakingPositions = account.nearResources?.stakingPositions;
@@ -32,7 +32,7 @@ export function useNearMappedStakingPositions(
 }
 
 export function useNearStakingPositionsQuerySelector(
-  account: Account,
+  account: NearAccount,
   transaction: Transaction
 ): {
   options: NearMappedStakingPosition[];

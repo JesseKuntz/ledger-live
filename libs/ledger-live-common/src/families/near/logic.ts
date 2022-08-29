@@ -1,12 +1,13 @@
 import { BigNumber } from "bignumber.js";
 import { utils } from "near-api-js";
 import { formatCurrencyUnit } from "../../currencies";
-import type { Account, Unit } from "../../types";
+import type { Unit } from "@ledgerhq/types-cryptoassets";
 import {
   NearMappedStakingPosition,
   Transaction,
   NearStakingPosition,
   NearValidatorItem,
+  NearAccount,
 } from "./types";
 import { createTransaction, updateTransaction } from "./js-transaction";
 import { getCurrentNearPreloadData } from "./preload";
@@ -49,7 +50,7 @@ export const getStakingGas = (t?: Transaction, multiplier = 5): BigNumber => {
 };
 
 export const getMaxAmount = (
-  a: Account,
+  a: NearAccount,
   t: Transaction,
   fees: BigNumber
 ): BigNumber => {
@@ -87,7 +88,7 @@ export const getMaxAmount = (
 };
 
 export const getTotalSpent = (
-  a: Account,
+  a: NearAccount,
   t: Transaction,
   fees: BigNumber
 ): BigNumber => {
@@ -133,7 +134,7 @@ export const mapStakingPositions = (
 /*
  * Make sure that an account has enough funds to stake, unstake, AND withdraw before staking.
  */
-export const canStake = (a: Account): boolean => {
+export const canStake = (a: NearAccount): boolean => {
   let transaction = createTransaction();
   transaction = updateTransaction(transaction, {
     mode: "stake",
