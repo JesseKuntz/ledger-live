@@ -9,6 +9,5 @@ export {
   getStakingPositions,
   getValidators,
   getCommission,
-  getFunctionCallAmount,
 } from "./archive-node-sdk";
 export { getStakingDeposits } from "./near-indexer-sdk";

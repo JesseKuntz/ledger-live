@@ -49,8 +49,6 @@ const AmountCellExtra = ({ operation, currency, unit }: AmountCellExtraProps) =>
 
 const amountCellExtra: { [key: string]: ComponentType<any> } = {
   STAKE: AmountCellExtra,
-  UNSTAKE: AmountCellExtra,
-  WITHDRAW: AmountCellExtra,
 };
 
 type OperationDetailsExtraProps = {
@@ -66,10 +64,6 @@ const OperationDetailsExtra = ({ operation, type, account }: OperationDetailsExt
 
   if (type === "STAKE") {
     i18nKey = "near.operationDetails.extra.stakedAmount";
-  } else if (type === "UNSTAKE") {
-    i18nKey = "near.operationDetails.extra.unstakedAmount";
-  } else if (type === "WITHDRAW") {
-    i18nKey = "near.operationDetails.extra.withdrawnAmount";
   }
 
   if (!i18nKey || amount.isZero()) {

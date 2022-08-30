@@ -4,7 +4,6 @@ import { getEnv } from "../../../env";
 import { encodeOperationId } from "../../../operation";
 import { Operation, OperationType } from "@ledgerhq/types-live";
 import { NearTransaction } from "./sdk.types";
-import { getFunctionCallAmount } from "./index";
 
 const DEFAULT_TRANSACTIONS_LIMIT = 100;
 const getIndexerUrl = (route: string): string =>
@@ -48,21 +47,11 @@ function getOperationType(
   }
 }
 
-async function getOperationValue(
+function getOperationValue(
   transaction: NearTransaction,
-  address: string,
   type: OperationType
-): Promise<BigNumber> {
-  let amount = transaction.actions[0].data.deposit || 0;
-
-  if (["UNSTAKE", "WITHDRAW"].includes(type)) {
-    const functionCallAmount = await getFunctionCallAmount(
-      transaction.hash,
-      address
-    );
-
-    amount = functionCallAmount || 0;
-  }
+): BigNumber {
+  const amount = transaction.actions[0].data.deposit || 0;
 
   if (type === "OUT") {
     return new BigNumber(amount).plus(transaction.fee);
@@ -77,7 +66,7 @@ async function transactionToOperation(
   transaction: NearTransaction
 ): Promise<Operation> {
   const type = getOperationType(transaction, address);
-  const value = await getOperationValue(transaction, address, type);
+  const value = getOperationValue(transaction, type);
 
   return {
     id: encodeOperationId(accountId, transaction.hash, type),

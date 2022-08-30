@@ -2930,9 +2930,7 @@
     },
     "operationDetails": {
       "extra": {
-        "stakedAmount": "Staked amount",
-        "unstakedAmount": "Unstaked amount",
-        "withdrawnAmount": "Withdrawn amount"
+        "stakedAmount": "Staked amount"
       }
     },
     "stake": {

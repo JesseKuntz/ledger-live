@@ -311,31 +311,3 @@ export const getCommission = async (
 
   return null;
 };
-
-export const getFunctionCallAmount = async (
-  hash: string,
-  senderAddress: string
-): Promise<string> => {
-  const { data } = await network({
-    method: "POST",
-    url: getEnv("API_NEAR_ARCHIVE_NODE"),
-    data: {
-      jsonrpc: "2.0",
-      id: "dontcare",
-      method: "EXPERIMENTAL_tx_status",
-      params: [hash, senderAddress],
-    },
-  });
-
-  const args =
-    data?.result?.receipts?.[0]?.receipt?.Action?.actions?.[0]?.FunctionCall
-      ?.args;
-
-  if (args) {
-    return (
-      JSON.parse(Buffer.from(args, "base64").toString("utf8"))?.amount || ""
-    );
-  }
-
-  return "";
-};
