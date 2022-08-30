@@ -35,11 +35,9 @@ function getOperationType(
     case "deposit_and_stake":
       return "STAKE";
     case "unstake":
-      return "UNSTAKE";
     case "unstake_all":
       return "UNSTAKE";
     case "withdraw":
-      return "WITHDRAW";
     case "withdraw_all":
       return "WITHDRAW";
     default:
@@ -66,13 +64,12 @@ async function transactionToOperation(
   transaction: NearTransaction
 ): Promise<Operation> {
   const type = getOperationType(transaction, address);
-  const value = getOperationValue(transaction, type);
 
   return {
     id: encodeOperationId(accountId, transaction.hash, type),
     accountId,
     fee: new BigNumber(transaction.fee || 0),
-    value,
+    value: getOperationValue(transaction, type),
     type,
     hash: transaction.hash,
     blockHash: transaction.block_hash,

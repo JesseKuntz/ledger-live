@@ -57,7 +57,6 @@ export const buildTransaction = async (
           )
         );
       }
-
       break;
     case "withdraw":
       if (t.useAllAmount) {
@@ -79,7 +78,6 @@ export const buildTransaction = async (
           )
         );
       }
-
       break;
     default:
       actions.push(nearAPI.transactions.transfer(parsedNearAmount));

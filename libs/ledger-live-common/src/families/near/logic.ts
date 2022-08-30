@@ -20,9 +20,6 @@ export const FIGMENT_NEAR_VALIDATOR_ADDRESS = "ledgerbyfigment.poolv1.near";
 export const FRACTIONAL_DIGITS = 5;
 export const NETWORK_ID = "W".charCodeAt(0);
 
-/*
- * Validate a NEAR address.
- */
 export const isValidAddress = (address: string): boolean => {
   const readableAddressRegex =
     /^(([a-z\d]+[-_])*[a-z\d]+\.)*([a-z\d]+[-_])*[a-z\d]+$/;
@@ -159,19 +156,26 @@ export const canWithdraw = (
   return stakingPosition.available.gte(getYoctoThreshold());
 };
 
+/*
+ * The threshold that the NEAR wallet uses for staking, unstaking, and withdrawing.
+ * A "1" is subtracted due to the value from the node being 1 yoctoNEAR less than what was staked.
+ */
 export const getYoctoThreshold = (): BigNumber => {
   return new BigNumber(10)
     .pow(new BigNumber(utils.format.NEAR_NOMINATION_EXP - FRACTIONAL_DIGITS))
     .minus("1");
 };
 
+/*
+ * An estimation for the fee by using the staking gas and scaling accordingly.
+ * Buffer added so that the transaction never fails - we'll always overestimate.
+ */
 export const getStakingFees = (
   t: Transaction,
   gasPrice: BigNumber
 ): BigNumber => {
   const stakingGas = getStakingGas(t);
 
-  // TODO: figure out why it needs to be divided by 10
   return stakingGas
     .plus(STAKING_GAS_BASE) // Buffer
     .multipliedBy(gasPrice)

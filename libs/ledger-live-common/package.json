@@ -202,7 +202,6 @@
     "lodash": "^4.17.21",
     "lru-cache": "5.1.1",
     "near-api-js": "^0.44.2",
-    "near-ledger-js": "^0.2.1",
     "numeral": "^2.0.6",
     "object-hash": "^2.2.0",
     "performance-now": "^2.1.0",
