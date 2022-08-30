@@ -57,6 +57,14 @@ const Staking = ({ account }: Props) => {
     );
   }, [account, dispatch]);
 
+  const onEarnRewards = useCallback(() => {
+    dispatch(
+      openModal("MODAL_NEAR_REWARDS_INFO", {
+        account,
+      }),
+    );
+  }, [account, dispatch]);
+
   const onRedirect = useCallback(
     (validatorAddress: string, modalName: string) => {
       dispatch(
@@ -148,7 +156,7 @@ const Staking = ({ account }: Props) => {
               <ToolTip
                 content={!stakingEnabled ? <Trans i18nKey="near.stake.minSafeWarning" /> : null}
               >
-                <Button primary small disabled={!stakingEnabled} onClick={onStake}>
+                <Button primary small disabled={!stakingEnabled} onClick={onEarnRewards}>
                   <Box horizontal flow={1} alignItems="center">
                     <IconChartLine size={12} />
                     <Box>

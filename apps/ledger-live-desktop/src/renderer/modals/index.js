@@ -76,6 +76,7 @@ import MODAL_SOLANA_DELEGATION_REACTIVATE from "../families/solana/DelegationRea
 import MODAL_SOLANA_DELEGATION_WITHDRAW from "../families/solana/DelegationWithdrawFlowModal";
 
 import MODAL_NEAR_STAKE from "../families/near/StakingFlowModal";
+import MODAL_NEAR_REWARDS_INFO from "../families/near/StakingFlowModal/Info";
 import MODAL_NEAR_UNSTAKE from "../families/near/UnstakingFlowModal";
 import MODAL_NEAR_WITHDRAW from "../families/near/WithdrawingFlowModal";
 
@@ -149,6 +150,7 @@ const modals: { [_: string]: React$ComponentType<any> } = {
   MODAL_SOLANA_DELEGATION_REACTIVATE,
   MODAL_SOLANA_DELEGATION_WITHDRAW,
   MODAL_NEAR_STAKE,
+  MODAL_NEAR_REWARDS_INFO,
   MODAL_NEAR_UNSTAKE,
   MODAL_NEAR_WITHDRAW,
   MODAL_FULL_NODE,

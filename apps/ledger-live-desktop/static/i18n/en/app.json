@@ -2956,6 +2956,17 @@
       "flow": {
         "title": "Stake",
         "steps": {
+          "starter": {
+            "description": "You may earn rewards by staking your NEAR assets to a validator.",
+            "bullet": [
+              "You keep ownership of staked assets",
+              "Stake using your Ledger device",
+              "Assets will be available 52 - 65 hours after unstaking"
+            ],
+            "warning": {
+              "description": "Choose your validator wisely: Part of your staked assets may be irrevocably lost if the validator does not behave appropriately."
+            }
+          },
           "amount": {
             "title": "Amount"
           },

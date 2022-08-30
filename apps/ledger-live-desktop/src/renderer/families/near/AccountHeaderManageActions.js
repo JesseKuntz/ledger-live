@@ -23,13 +23,23 @@ const AccountHeaderActions = ({ account, parentAccount }: Props) => {
   invariant(nearResources, "near account expected");
   const stakingEnabled = canStake(mainAccount);
 
+  const hasStakingPositions = nearResources.stakingPositions.length > 0;
+
   const onClick = useCallback(() => {
-    dispatch(
-      openModal("MODAL_NEAR_STAKE", {
-        account,
-      }),
-    );
-  }, [dispatch, account]);
+    if (hasStakingPositions) {
+      dispatch(
+        openModal("MODAL_NEAR_STAKE", {
+          account,
+        }),
+      );
+    } else {
+      dispatch(
+        openModal("MODAL_NEAR_REWARDS_INFO", {
+          account,
+        }),
+      );
+    }
+  }, [dispatch, account, hasStakingPositions]);
 
   if (parentAccount) return null;
 

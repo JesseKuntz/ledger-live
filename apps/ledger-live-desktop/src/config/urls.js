@@ -131,6 +131,8 @@ export const urls = {
   osmosisStakingRewards: "https://support.ledger.com/hc/en-us/articles/6235986236957?docs=true",
   algorandStakingRewards:
     "https://support.ledger.com/hc/en-us/articles/360015897740?utm_source=ledger_live_desktop&utm_medium=self_referral&utm_content=algorand",
+  nearStakingRewards:
+    "https://support.ledger.com/hc/en-us/articles/360020450619-NEAR-NEAR-?docs=true",
   polkadotFeesInfo:
     "https://support.ledger.com/hc/en-us/articles/360016289919?utm_source=ledger_live_desktop&utm_medium=self_referral&utm_content=polkadot",
   xpubLearnMore:
