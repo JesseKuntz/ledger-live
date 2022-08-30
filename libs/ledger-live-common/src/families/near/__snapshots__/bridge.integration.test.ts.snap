@@ -18,13 +18,13 @@ Array [
     "index": 0,
     "name": "NEAR 1",
     "nearResources": Object {
-      "availableBalance": "0",
-      "pendingBalance": "10000000000000000001",
+      "availableBalance": "10000000000000000001",
+      "pendingBalance": "0",
       "stakedBalance": "0",
       "stakingPositions": Array [
         Object {
-          "available": "0",
-          "pending": "10000000000000000001",
+          "available": "10000000000000000001",
+          "pending": "0",
           "rewards": "1",
           "staked": "0",
           "validatorId": "figment.poolv1.near",
