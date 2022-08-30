@@ -77,7 +77,7 @@ const getTransactionStatus = async (
     const currency = getCryptoCurrencyById("near");
     const formattedStakingThreshold = formatCurrencyUnit(
       currency.units[0],
-      stakingThreshold,
+      stakingThreshold.plus("1"),
       {
         showCode: true,
       }

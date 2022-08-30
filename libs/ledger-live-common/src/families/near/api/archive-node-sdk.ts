@@ -234,13 +234,13 @@ export const getStakingPositions = async (
 
       const stakingThreshold = await getYoctoThreshold();
 
-      if (staked.gt(stakingThreshold)) {
+      if (staked.gte(stakingThreshold)) {
         totalStaked = totalStaked.plus(staked);
       }
-      if (available.gt(stakingThreshold)) {
+      if (available.gte(stakingThreshold)) {
         totalAvailable = totalAvailable.plus(available);
       }
-      if (pending.gt(stakingThreshold)) {
+      if (pending.gte(stakingThreshold)) {
         totalPending = totalPending.plus(pending);
       }
 

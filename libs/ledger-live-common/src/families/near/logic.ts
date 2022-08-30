@@ -16,7 +16,7 @@ export const FALLBACK_STORAGE_AMOUNT_PER_BYTE = "10000000000000000000";
 export const NEW_ACCOUNT_SIZE = 182;
 export const MIN_ACCOUNT_BALANCE_BUFFER = "30000000000000000000000";
 export const STAKING_GAS_BASE = "25000000000000";
-export const FIGMENT_NEAR_VALIDATOR_ADDRESS = "figment.poolv1.near";
+export const FIGMENT_NEAR_VALIDATOR_ADDRESS = "ledgerbyfigment.poolv1.near";
 export const FRACTIONAL_DIGITS = 5;
 export const NETWORK_ID = "W".charCodeAt(0);
 
@@ -160,9 +160,9 @@ export const canWithdraw = (
 };
 
 export const getYoctoThreshold = (): BigNumber => {
-  return new BigNumber(10).pow(
-    new BigNumber(utils.format.NEAR_NOMINATION_EXP - FRACTIONAL_DIGITS)
-  );
+  return new BigNumber(10)
+    .pow(new BigNumber(utils.format.NEAR_NOMINATION_EXP - FRACTIONAL_DIGITS))
+    .minus("1");
 };
 
 export const getStakingFees = (
