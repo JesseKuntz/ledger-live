@@ -1768,6 +1768,8 @@
       "UNLOCK": "Unlocked",
       "REVOKE": "Revoked",
       "REGISTER": "Registered",
+      "STAKE": "Staked",
+      "UNSTAKE": "Unstaked",
       "WITHDRAW": "Withdrawn"
     }
   },
@@ -3682,6 +3684,30 @@
             }
           }
         }
+      }
+    }
+  },
+  "near": {
+    "info": {
+      "available": {
+        "title": "NEAR available",
+        "description": "This amount is disposable."
+      },
+      "storageUsage": {
+        "title": "Minimum balance",
+        "description": "This amount is reserved for storage and transactions, and is the minimum balance that your account must maintain to remain active."
+      },
+      "staked": {
+        "title": "Staked balance",
+        "description": "This amount is currently staked with validators."
+      },
+      "pending": {
+        "title": "Pending balance",
+        "description": "This amount has been unstaked and is currently pending availability."
+      },
+      "withdrawable": {
+        "title": "Withdrawable balance",
+        "description": "This amount has been unstaked and is currently able to be withdrawn."
       }
     }
   },
