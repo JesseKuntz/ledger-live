@@ -26,6 +26,7 @@ import {
   fromElrondResourcesRaw,
   fromCryptoOrgResourcesRaw,
   fromSolanaResourcesRaw,
+  fromNearResourcesRaw,
   fromNFTRaw,
   toTronResourcesRaw,
   toCosmosResourcesRaw,
@@ -51,6 +52,7 @@ import { PolkadotAccount, PolkadotAccountRaw } from "./families/polkadot/types";
 import { SolanaAccount, SolanaAccountRaw } from "./families/solana/types";
 import { TezosAccount, TezosAccountRaw } from "./families/tezos/types";
 import { TronAccount, TronAccountRaw } from "./families/tron/types";
+import { NearAccount, NearAccountRaw } from "./families/near/types";
 
 // aim to build operations with the minimal diff & call to coin implementation possible
 export async function minimalOperationsBuilder<CO>(
@@ -485,6 +487,21 @@ export function patchAccount(
       ) {
         (next as SolanaAccount).solanaResources = fromSolanaResourcesRaw(
           solanaUpdatedRaw.solanaResources
+        );
+        changed = true;
+      }
+      break;
+    }
+    case "near": {
+      const nearAcc = account as NearAccount;
+      const nearUpdatedRaw = updatedRaw as NearAccountRaw;
+
+      if (
+        nearUpdatedRaw.nearResources &&
+        !areSameResources(nearAcc.nearResources, nearUpdatedRaw.nearResources)
+      ) {
+        (next as NearAccount).nearResources = fromNearResourcesRaw(
+          nearUpdatedRaw.nearResources
         );
         changed = true;
       }

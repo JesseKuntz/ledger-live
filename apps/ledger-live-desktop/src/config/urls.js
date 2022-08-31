@@ -131,6 +131,8 @@ export const urls = {
   osmosisStakingRewards: "https://support.ledger.com/hc/en-us/articles/6235986236957?docs=true",
   algorandStakingRewards:
     "https://support.ledger.com/hc/en-us/articles/360015897740?utm_source=ledger_live_desktop&utm_medium=self_referral&utm_content=algorand",
+  nearStakingRewards:
+    "https://support.ledger.com/hc/en-us/articles/360020450619-NEAR-NEAR-?docs=true",
   polkadotFeesInfo:
     "https://support.ledger.com/hc/en-us/articles/360016289919?utm_source=ledger_live_desktop&utm_medium=self_referral&utm_content=polkadot",
   xpubLearnMore:
@@ -231,4 +233,6 @@ export const urls = {
     supportArticleLink:
       "https://support.ledger.com/hc/en-us/articles/4494505217565-Create-a-Ledger-Hedera-HBAR-account-via-HashPack?docs=true",
   },
+  ledgerByFigmentTC:
+    "https://cdn.figment.io/legal/Current%20Ledger_Online%20Staking%20Delgation%20Services%20Agreement.pdf",
 };
