@@ -390,6 +390,9 @@ export const ScreenName = {
   CustomImageStep2Preview: "CustomImageStep2Preview",
   CustomImageStep3Transfer: "CustomImageStep3Transfer",
   CustomImageErrorScreen: "CustomImageErrorScreen",
+  // near
+  NearStakingValidator: "NearStakingValidator",
+  NearStakingStarted: "NearStakingStarted",
 };
 export const NavigatorName = {
   // Stack
@@ -462,6 +465,8 @@ export const NavigatorName = {
   StellarAddAssetFlow: "StellarAddAssetFlow",
   NotificationCenter: "NotificationCenter",
   Market: "Market",
+  // NEAR
+  NearStakingFlow: "NearStakingFlow",
   // Tab
   Main: "Main",
   // Root
