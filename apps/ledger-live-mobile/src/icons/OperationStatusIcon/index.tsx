@@ -38,6 +38,9 @@ const iconsComponent = {
   SET_CONTROLLER: Icons.ArrowFromBottomMedium,
   NFT_IN: Icons.ArrowBottomMedium,
   NFT_OUT: Icons.ArrowTopMedium,
+  STAKE: Icons.HandshakeMedium,
+  UNSTAKE: Icons.UndelegateMedium,
+  WITHDRAW: Icons.CoinsMedium,
 };
 
 const OperationStatusIcon = ({
