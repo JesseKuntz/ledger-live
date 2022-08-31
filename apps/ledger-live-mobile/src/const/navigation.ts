@@ -345,6 +345,9 @@ export const ScreenName = {
   CardanoEditMemo: "CardanoEditMemo",
   // hedera
   HederaEditMemo: "HederaEditMemo",
+  // near
+  NearStakingValidator: "NearStakingValidator",
+  NearStakingStarted: "NearStakingStarted",
 };
 export const NavigatorName = {
   // Stack
@@ -413,6 +416,8 @@ export const NavigatorName = {
   StellarAddAssetFlow: "StellarAddAssetFlow",
   NotificationCenter: "NotificationCenter",
   Market: "Market",
+  // NEAR
+  NearStakingFlow: "NearStakingFlow",
   // Tab
   Main: "Main",
   // Root
