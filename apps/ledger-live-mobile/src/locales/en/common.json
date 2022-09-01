@@ -3582,6 +3582,28 @@
       "withdrawable": {
         "title": "Withdrawable balance",
         "description": "This amount has been unstaked and is currently able to be withdrawn."
+      },
+      "stakingUnavailable": {
+        "title": "Staking unavailable",
+        "description": "Not enough available balance in your account to stake, unstake, and withdraw."
+      }
+    },
+    "staking": {
+      "sectionLabel": "Staking Position(s)",
+      "info": "How Staking Works",
+      "add": "Add",
+      "stakingEarn": "You can earn NEAR rewards by staking your assets.",
+      "actions": {
+        "unstake": "Unstake",
+        "withdraw": "Withdraw"
+      },
+      "drawer": {
+        "status": "Status",
+        "active": "Active",
+        "inactive": "Inactive",
+        "rewards": "Rewards",
+        "pending": "Pending",
+        "available": "Available"
       }
     }
   },
