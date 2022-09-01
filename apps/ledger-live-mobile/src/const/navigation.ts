@@ -393,6 +393,8 @@ export const ScreenName = {
   // near
   NearStakingValidator: "NearStakingValidator",
   NearStakingStarted: "NearStakingStarted",
+  NearUnstakingAmount: "NearUnstakingAmount",
+  NearWithdrawingAmount: "NearWithdrawingAmount",
 };
 export const NavigatorName = {
   // Stack
@@ -467,6 +469,8 @@ export const NavigatorName = {
   Market: "Market",
   // NEAR
   NearStakingFlow: "NearStakingFlow",
+  NearUnstakingFlow: "NearUnstakingFlow",
+  NearWithdrawingFlow: "NearWithdrawingFlow",
   // Tab
   Main: "Main",
   // Root
