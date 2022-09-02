@@ -392,9 +392,15 @@ export const ScreenName = {
   CustomImageErrorScreen: "CustomImageErrorScreen",
   // near
   NearStakingValidator: "NearStakingValidator",
+  NearStakingValidatorSelect: "NearStakingValidatorSelect",
+  NearStakingAmount: "NearStakingAmount",
   NearStakingStarted: "NearStakingStarted",
   NearUnstakingAmount: "NearUnstakingAmount",
   NearWithdrawingAmount: "NearWithdrawingAmount",
+  NearStakingSelectDevice: "NearStakingSelectDevice",
+  NearStakingConnectDevice: "NearStakingConnectDevice",
+  NearStakingValidationError: "NearStakingValidationError",
+  NearStakingValidationSuccess: "NearStakingValidationSuccess",
 };
 export const NavigatorName = {
   // Stack
