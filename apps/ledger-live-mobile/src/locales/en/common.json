@@ -3602,6 +3602,20 @@
         }
       }
     },
+    "withdrawing": {
+      "stepperHeader": {
+        "amountSubTitle": "Amount to withdraw"
+      },
+      "flow": {
+        "steps": {
+          "verification": {
+            "success": {
+              "title": "You have successfully withdrawn your assets"
+            }
+          }
+        }
+      }
+    },
     "staking": {
       "sectionLabel": "Staking Position(s)",
       "info": "How Staking Works",

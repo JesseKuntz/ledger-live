@@ -360,6 +360,10 @@ export const ScreenName = {
   NearUnstakingConnectDevice: "NearUnstakingConnectDevice",
   NearUnstakingValidationError: "NearUnstakingValidationError",
   NearUnstakingValidationSuccess: "NearUnstakingValidationSuccess",
+  NearWithdrawingSelectDevice: "NearWithdrawingSelectDevice",
+  NearWithdrawingConnectDevice: "NearWithdrawingConnectDevice",
+  NearWithdrawingValidationError: "NearWithdrawingValidationError",
+  NearWithdrawingValidationSuccess: "NearWithdrawingValidationSuccess",
 };
 export const NavigatorName = {
   // Stack
