@@ -3588,6 +3588,20 @@
         "description": "Not enough available balance in your account to stake, unstake, and withdraw."
       }
     },
+    "unstaking": {
+      "stepperHeader": {
+        "amountSubTitle": "Amount to unstake"
+      },
+      "flow": {
+        "steps": {
+          "verification": {
+            "success": {
+              "title": "You have successfully unstaked your assets"
+            }
+          }
+        }
+      }
+    },
     "staking": {
       "sectionLabel": "Staking Position(s)",
       "info": "How Staking Works",

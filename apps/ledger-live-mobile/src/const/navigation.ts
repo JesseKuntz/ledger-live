@@ -356,6 +356,10 @@ export const ScreenName = {
   NearStakingConnectDevice: "NearStakingConnectDevice",
   NearStakingValidationError: "NearStakingValidationError",
   NearStakingValidationSuccess: "NearStakingValidationSuccess",
+  NearUnstakingSelectDevice: "NearUnstakingSelectDevice",
+  NearUnstakingConnectDevice: "NearUnstakingConnectDevice",
+  NearUnstakingValidationError: "NearUnstakingValidationError",
+  NearUnstakingValidationSuccess: "NearUnstakingValidationSuccess",
 };
 export const NavigatorName = {
   // Stack
