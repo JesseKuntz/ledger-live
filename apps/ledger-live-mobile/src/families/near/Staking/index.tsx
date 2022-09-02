@@ -94,7 +94,7 @@ function StakingPositions({ account }: Props) {
       screen: ScreenName.NearUnstakingAmount,
       params: {
         accountId: account.id,
-        validatorSrcAddress: stakingPosition?.validatorId,
+        stakingPosition,
       },
     });
   }, [onNavigate, stakingPosition, account]);

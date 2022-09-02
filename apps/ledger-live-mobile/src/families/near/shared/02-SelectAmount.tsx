@@ -36,7 +36,6 @@ type RouteParams = {
   min?: BigNumber;
   max?: BigNumber;
   value?: BigNumber;
-  redelegatedBalance?: BigNumber;
   mode: string;
   nextScreen: string;
 };
@@ -70,13 +69,14 @@ function StakingAmount({ navigation, route }: Props) {
 
     const transaction = bridge.updateTransaction(tx, {
       amount: value,
+      useAllAmount: value.gte(max),
     });
     navigation.navigate(route.params.nextScreen, {
       ...route.params,
       transaction,
       fromSelectAmount: true,
     });
-  }, [navigation, route.params, bridge, value]);
+  }, [navigation, route.params, bridge, value, max]);
   const [ratioButtons] = useState(
     [0.25, 0.5, 0.75, 1].map(ratio => ({
       label: `${ratio * 100}%`,
