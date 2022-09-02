@@ -719,6 +719,30 @@
     "ImageProcessingError": {
       "title": "Processing of the image failed",
       "description": "Please try again with another image"
+    },
+    "NearNewAccountWarning": {
+      "title": "The recipient account is not created yet. The protocol requires a {{formattedNewAccountStorageCost}} transfer to create it."
+    },
+    "NearNewNamedAccountError": {
+      "title": "The recipient account is not created yet. It needs to be created in the NEAR wallet."
+    },
+    "NearActivationFeeNotCovered": {
+      "title": "This amount doesn't cover the {{formattedNewAccountStorageCost}} storage cost."
+    },
+    "NearUseAllAmountStakeWarning": {
+      "title": "Ensure you have enough balance left for future transaction fees"
+    },
+    "NearNotEnoughStaked": {
+      "title": "Insuffient staked balance"
+    },
+    "NearNotEnoughAvailable": {
+      "title": "Insufficient withdrawable balance"
+    },
+    "NearRecommendUnstake": {
+      "title": "Please unstake and withdraw funds before emptying the account"
+    },
+    "NearStakingThresholdNotMet": {
+      "title": "Amount needs to be at least {{threshold}}"
     }
   },
   "bluetooth": {
@@ -1831,7 +1855,8 @@
       "storageLimit": "Storage Limit",
       "gasLimit": "Gas Limit",
       "id": "Id",
-      "autoClaimedRewards": "Auto Claimed Rewards"
+      "autoClaimedRewards": "Auto Claimed Rewards",
+      "stakedAmount": "Staked amount"
     },
     "multipleAddresses": "Why multiple addresses?",
     "tokenName": "Token Name",
