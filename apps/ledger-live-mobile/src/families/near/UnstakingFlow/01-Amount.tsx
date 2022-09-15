@@ -2,7 +2,12 @@ import invariant from "invariant";
 import React from "react";
 import { useSelector } from "react-redux";
 import { BigNumber } from "bignumber.js";
-import type { NearMappedStakingPosition } from "@ledgerhq/live-common/families/near/types";
+import type {
+  NearStakingPosition,
+  Transaction,
+  NearAccount,
+} from "@ledgerhq/live-common/families/near/types";
+import { getMaxAmount } from "@ledgerhq/live-common/families/near/logic";
 import { getAccountBridge } from "@ledgerhq/live-common/bridge/index";
 import { getMainAccount } from "@ledgerhq/live-common/account/index";
 import useBridgeTransaction from "@ledgerhq/live-common/bridge/useBridgeTransaction";
@@ -12,7 +17,7 @@ import { ScreenName } from "../../../const";
 
 type RouteParams = {
   accountId: string;
-  stakingPosition: NearMappedStakingPosition;
+  stakingPosition: NearStakingPosition;
 };
 type Props = {
   navigation: any;
@@ -26,24 +31,24 @@ function UnstakingAmount({ navigation, route }: Props) {
   invariant(account, "account required");
   const bridge = getAccountBridge(account, undefined);
   const mainAccount = getMainAccount(account, undefined);
-  const { validator, staked } = route.params.stakingPosition;
-  const { transaction } = useBridgeTransaction(() => {
+  const { validatorId } = route.params.stakingPosition;
+  const { transaction: bridgeTransaction } = useBridgeTransaction(() => {
     const t = bridge.createTransaction(mainAccount);
     return {
       account,
       transaction: bridge.updateTransaction(t, {
         mode: "unstake",
-        recipient: validator ? validator.validatorAddress : "",
+        recipient: validatorId || "",
       }),
     };
   });
+  const transaction = bridgeTransaction as Transaction;
   const newRoute = {
     ...route,
     params: {
       ...route.params,
       transaction,
-      validator,
-      max: staked,
+      max: getMaxAmount(account as NearAccount, transaction, transaction?.fees),
       value: transaction ? transaction.amount : new BigNumber(0),
       nextScreen: ScreenName.NearUnstakingSelectDevice,
     },

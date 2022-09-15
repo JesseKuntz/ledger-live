@@ -3785,7 +3785,7 @@
         "inactive": "Inactive",
         "rewards": "Rewards",
         "pending": "Pending",
-        "available": "Available"
+        "available": "Withdrawable"
       },
       "stepperHeader": {
         "amountSubTitle": "Amount to stake",

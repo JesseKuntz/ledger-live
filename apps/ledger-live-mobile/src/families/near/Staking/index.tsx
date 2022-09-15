@@ -275,7 +275,7 @@ function StakingPositions({ account }: Props) {
           description={t("near.staking.stakingEarn", {
             name: account.currency.name,
           })}
-          infoUrl={urls.discover.earn}
+          infoUrl={urls.nearStakingRewards}
           infoTitle={t("near.staking.info")}
           onPress={onStake}
           ctaTitle={t("account.delegation.info.cta")}

@@ -12,8 +12,8 @@ import { Trans } from "react-i18next";
 import { useSelector } from "react-redux";
 import { BigNumber } from "bignumber.js";
 import type {
-  NearValidatorItem,
   Transaction,
+  NearAccount,
 } from "@ledgerhq/live-common/families/near/types";
 import { getAccountBridge } from "@ledgerhq/live-common/bridge/index";
 import { getAccountUnit } from "@ledgerhq/live-common/account/index";
@@ -31,12 +31,9 @@ import KeyboardView from "../../../components/KeyboardView";
 type RouteParams = {
   accountId: string;
   transaction: Transaction;
-  validator: NearValidatorItem;
-  validatorSrc?: NearValidatorItem;
   min?: BigNumber;
   max?: BigNumber;
   value?: BigNumber;
-  mode: string;
   nextScreen: string;
 };
 type Props = {
@@ -48,7 +45,8 @@ type Props = {
 
 function StakingAmount({ navigation, route }: Props) {
   const { colors } = useTheme();
-  const { account } = useSelector(accountScreenSelector(route));
+  const account = useSelector(accountScreenSelector(route))
+    .account as NearAccount;
   const locale = useSelector(localeSelector);
   invariant(
     account && account.nearResources && route.params.transaction,

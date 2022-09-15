@@ -13,8 +13,12 @@ import { useLedgerFirstShuffledValidatorsNear } from "@ledgerhq/live-common/fami
 import {
   NearValidatorItem,
   Transaction,
+  NearAccount,
 } from "@ledgerhq/live-common/families/near/types";
-import { FIGMENT_NEAR_VALIDATOR_ADDRESS } from "@ledgerhq/live-common/families/near/logic";
+import {
+  FIGMENT_NEAR_VALIDATOR_ADDRESS,
+  getMaxAmount,
+} from "@ledgerhq/live-common/families/near/logic";
 import { AccountLike } from "@ledgerhq/types-live";
 import { Text } from "@ledgerhq/native-ui";
 import { useTheme } from "@react-navigation/native";
@@ -172,7 +176,7 @@ export default function DelegationSummary({ navigation, route }: Props) {
       transaction,
       validator: chosenValidator,
       min: null,
-      max: account.spendableBalance.minus(transaction.fees),
+      max: getMaxAmount(account as NearAccount, transaction, transaction.fees),
       value: transaction.amount,
       status,
       nextScreen: ScreenName.NearStakingValidator,
