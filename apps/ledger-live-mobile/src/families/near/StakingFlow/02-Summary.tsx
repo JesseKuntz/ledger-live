@@ -46,6 +46,9 @@ import { ScreenName } from "../../../const";
 import DelegatingContainer from "../../tezos/DelegatingContainer";
 import { accountScreenSelector } from "../../../reducers/accounts";
 import ValidatorImage from "../shared/ValidatorImage";
+import LText from "../../../components/LText";
+import TranslatedError from "../../../components/TranslatedError";
+import { getFirstStatusError, hasStatusError } from "../../helpers";
 
 type Props = {
   navigation: any;
@@ -178,7 +181,6 @@ export default function DelegationSummary({ navigation, route }: Props) {
       min: null,
       max: getMaxAmount(account as NearAccount, transaction, transaction.fees),
       value: transaction.amount,
-      status,
       nextScreen: ScreenName.NearStakingValidator,
       redelegatedBalance: null,
     });
@@ -193,7 +195,12 @@ export default function DelegationSummary({ navigation, route }: Props) {
     });
   }, [status, account, parentAccount, navigation, transaction]);
 
-  const hasErrors = Object.keys(status.errors).length > 0;
+  const error =
+    transaction.amount.eq(0) || bridgePending
+      ? null
+      : getFirstStatusError(status, "errors");
+  const warning = getFirstStatusError(status, "warnings");
+  const hasErrors = hasStatusError(status);
 
   return (
     <SafeAreaView style={[styles.root, { backgroundColor: colors.background }]}>
@@ -255,6 +262,13 @@ export default function DelegationSummary({ navigation, route }: Props) {
         </View>
       </View>
       <View style={styles.footer}>
+        <LText
+          style={[styles.fieldStatus]}
+          color={error ? "alert" : warning ? "orange" : "darkBlue"}
+          numberOfLines={2}
+        >
+          <TranslatedError error={error || warning} />
+        </LText>
         <Button
           event="SummaryContinue"
           type="primary"
@@ -347,6 +361,10 @@ const styles = StyleSheet.create({
   continueButton: {
     alignSelf: "stretch",
     marginTop: 12,
+  },
+  fieldStatus: {
+    fontSize: 14,
+    textAlign: "center",
   },
 });
 

@@ -32,7 +32,12 @@ function UnstakingAmount({ navigation, route }: Props) {
   const bridge = getAccountBridge(account, undefined);
   const mainAccount = getMainAccount(account, undefined);
   const { validatorId } = route.params.stakingPosition;
-  const { transaction: bridgeTransaction } = useBridgeTransaction(() => {
+  const {
+    transaction: bridgeTransaction,
+    updateTransaction,
+    status,
+    bridgePending,
+  } = useBridgeTransaction(() => {
     const t = bridge.createTransaction(mainAccount);
     return {
       account,
@@ -51,6 +56,9 @@ function UnstakingAmount({ navigation, route }: Props) {
       max: getMaxAmount(account as NearAccount, transaction, transaction?.fees),
       value: transaction ? transaction.amount : new BigNumber(0),
       nextScreen: ScreenName.NearUnstakingSelectDevice,
+      updateTransaction,
+      status,
+      bridgePending,
     },
   };
   return <SelectAmount navigation={navigation} route={newRoute} />;

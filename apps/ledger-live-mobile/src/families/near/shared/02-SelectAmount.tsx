@@ -14,6 +14,7 @@ import { BigNumber } from "bignumber.js";
 import type {
   Transaction,
   NearAccount,
+  TransactionStatus,
 } from "@ledgerhq/live-common/families/near/types";
 import { getAccountBridge } from "@ledgerhq/live-common/bridge/index";
 import { getAccountUnit } from "@ledgerhq/live-common/account/index";
@@ -24,9 +25,10 @@ import { localeSelector } from "../../../reducers/settings";
 import Button from "../../../components/Button";
 import CurrencyInput from "../../../components/CurrencyInput";
 import LText from "../../../components/LText";
-import Warning from "../../../icons/Warning";
 import Check from "../../../icons/Check";
 import KeyboardView from "../../../components/KeyboardView";
+import TranslatedError from "../../../components/TranslatedError";
+import { getFirstStatusError, hasStatusError } from "../../helpers";
 
 type RouteParams = {
   accountId: string;
@@ -35,6 +37,9 @@ type RouteParams = {
   max?: BigNumber;
   value?: BigNumber;
   nextScreen: string;
+  updateTransaction?: (updater: (arg0: Transaction) => Transaction) => void;
+  bridgePending?: boolean;
+  status?: TransactionStatus;
 };
 type Props = {
   navigation: any;
@@ -60,8 +65,9 @@ function StakingAmount({ navigation, route }: Props) {
   );
   const [value, setValue] = useState(() => initialValue);
   const max = useMemo(() => route?.params?.max ?? new BigNumber(0), [route]);
-  const min = useMemo(() => route?.params?.min ?? new BigNumber(0), [route]);
   const remaining = useMemo(() => max.minus(value), [max, value]);
+  const { transaction, updateTransaction, bridgePending, status } =
+    route.params;
   const onNext = useCallback(() => {
     const tx = route.params.transaction;
 
@@ -75,13 +81,28 @@ function StakingAmount({ navigation, route }: Props) {
       fromSelectAmount: true,
     });
   }, [navigation, route.params, bridge, value, max]);
+  const onChange = useCallback(
+    amount => {
+      if (!amount.isNaN()) {
+        setValue(amount);
+        updateTransaction && updateTransaction(oldTx => ({ ...oldTx, amount }));
+      }
+    },
+    [updateTransaction],
+  );
   const [ratioButtons] = useState(
     [0.25, 0.5, 0.75, 1].map(ratio => ({
       label: `${ratio * 100}%`,
       value: max.multipliedBy(ratio).integerValue(),
     })),
   );
-  const error = useMemo(() => max.lt(0) || value.lt(min), [value, max, min]);
+  const error =
+    transaction.amount.eq(0) || bridgePending
+      ? null
+      : getFirstStatusError(status, "errors");
+  const warning = getFirstStatusError(status, "warnings");
+  const hasErrors = hasStatusError(status);
+
   let behaviorParam;
 
   if (Platform.OS === "ios") {
@@ -104,10 +125,18 @@ function StakingAmount({ navigation, route }: Props) {
               <CurrencyInput
                 unit={unit}
                 value={value}
-                onChange={setValue}
+                onChange={onChange}
                 inputStyle={styles.inputStyle}
-                hasError={error}
+                hasError={!!error}
+                hasWarning={!!warning}
               />
+              <LText
+                style={[styles.fieldStatus]}
+                color={error ? "alert" : warning ? "orange" : "darkBlue"}
+                numberOfLines={2}
+              >
+                <TranslatedError error={error || warning} />
+              </LText>
               <View style={styles.ratioButtonContainer}>
                 {ratioButtons.map(({ label, value: v }) => (
                   <TouchableOpacity
@@ -124,7 +153,7 @@ function StakingAmount({ navigation, route }: Props) {
                     ]}
                     onPress={() => {
                       Keyboard.dismiss();
-                      setValue(v);
+                      onChange(v);
                     }}
                   >
                     <LText
@@ -148,37 +177,6 @@ function StakingAmount({ navigation, route }: Props) {
                 },
               ]}
             >
-              {error && !value.eq(0) && (
-                <View style={styles.labelContainer}>
-                  <Warning size={16} color={colors.error.c100} />
-                  <LText
-                    style={[styles.assetsRemaining]}
-                    color={colors.error.c100}
-                  >
-                    <Trans
-                      i18nKey={
-                        value.lt(min)
-                          ? "near.staking.flow.steps.amount.minAmount"
-                          : "near.staking.flow.steps.amount.incorrectAmount"
-                      }
-                      values={{
-                        min: formatCurrencyUnit(unit, min, {
-                          showCode: true,
-                          showAllDigits: true,
-                          locale,
-                        }),
-                        max: formatCurrencyUnit(unit, max, {
-                          showCode: true,
-                          showAllDigits: true,
-                          locale,
-                        }),
-                      }}
-                    >
-                      <LText semiBold>{""}</LText>
-                    </Trans>
-                  </LText>
-                </View>
-              )}
               {remaining.isZero() && (
                 <View style={styles.labelContainer}>
                   <Check size={16} color={colors.success.c100} />
@@ -210,7 +208,8 @@ function StakingAmount({ navigation, route }: Props) {
                 </View>
               )}
               <Button
-                disabled={error}
+                disabled={!!bridgePending || !!hasErrors}
+                pending={bridgePending}
                 event="NearStakingAmountContinueBtn"
                 onPress={onNext}
                 title={<Trans i18nKey="near.staking.flow.steps.amount.cta" />}
@@ -287,6 +286,10 @@ const styles = StyleSheet.create({
   small: {
     fontSize: 11,
     lineHeight: 16,
+  },
+  fieldStatus: {
+    fontSize: 14,
+    textAlign: "center",
   },
 });
 
